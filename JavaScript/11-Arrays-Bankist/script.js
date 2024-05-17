@@ -177,6 +177,24 @@ btnTransfer.addEventListener('click', e => {
   }
 });
 
+btnLoan.addEventListener('click', e => {
+  e.preventDefault();
+
+  const loanAmount = Number(inputLoanAmount.value);
+
+  if (
+    loanAmount > 0 &&
+    currentAccount.movements.some(mov => mov >= 0.1 * loanAmount)
+  ) {
+    currentAccount.movements.push(loanAmount);
+    updateUI();
+  }
+
+  // Clear request loan fields
+  inputLoanAmount.value = '';
+  inputLoanAmount.blur();
+});
+
 btnClose.addEventListener('click', e => {
   e.preventDefault();
   const closeUsername = inputCloseUsername.value;
@@ -346,4 +364,35 @@ const theFindMethod = function () {
 const theFindIndexMethod = function () {
   const firstWithdrawalIndex = movements.findIndex(mov => mov < 0);
   console.log(movements, movements[firstWithdrawalIndex]);
+};
+
+const someAndEveryMethods = function () {
+  console.log(movements);
+  console.log(movements.some(mov => mov > 0));
+  console.log(
+    movements.every(mov => {
+      return typeof mov === 'number';
+    })
+  );
+};
+
+const theFlatAndFlatMapMethods = function () {
+  const arr = [[1, 2, 3], [4, 5, 6], 7, 8];
+  console.log(arr.flat());
+
+  const arrDeep = [[[1, 2], 3], [4, [5, 6]], 7, 8];
+  console.log(arrDeep.flat(2));
+
+  const overallBalance = accounts
+    .map(acc => acc.movements)
+    .flat()
+    .reduce((acc, mov) => acc + mov, 0);
+
+  console.log(overallBalance);
+
+  const overallBalanceFlatMap = accounts
+    .flatMap(acc => acc.movements)
+    .reduce((acc, mov) => acc + mov, 0);
+
+  console.log(overallBalanceFlatMap);
 };
