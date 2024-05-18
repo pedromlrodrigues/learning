@@ -61,11 +61,14 @@ const inputLoanAmount = document.querySelector('.form__input--loan-amount');
 const inputCloseUsername = document.querySelector('.form__input--user');
 const inputClosePin = document.querySelector('.form__input--pin');
 
-const displayMovements = function (movements) {
+const displayMovements = function (movements, sort = false) {
   containerMovements.innerHTML = '';
   // containerMovements.textContent = 0;
+  const sortedMovements = sort
+    ? movements.slice().sort((a, b) => a - b)
+    : movements;
 
-  movements.forEach(function (mov, i) {
+  sortedMovements.forEach(function (mov, i) {
     const type = mov > 0 ? 'deposit' : 'withdrawal';
     const html = `<div class="movements__row">
           <div class="movements__type movements__type--${type}">${
@@ -220,6 +223,13 @@ btnClose.addEventListener('click', e => {
     containerApp.style.opacity = 0;
     labelWelcome.textContent = 'Log in to get started';
   }
+});
+
+let sorted = false;
+btnSort.addEventListener('click', e => {
+  e.preventDefault();
+  sorted = !sorted;
+  displayMovements(currentAccount.movements, sorted);
 });
 
 /////////////////////////////////////////////////
@@ -395,4 +405,68 @@ const theFlatAndFlatMapMethods = function () {
     .reduce((acc, mov) => acc + mov, 0);
 
   console.log(overallBalanceFlatMap);
+};
+
+const sortingArrays = function () {
+  // Strings
+  const owners = ['Jonas', 'Zach', 'Adam', 'Martha'];
+  console.log(owners.sort());
+  console.log(owners);
+
+  // Numbers
+  // Return < 0, A before B (keep order)
+  // Return > 0, B before A (switch order)
+
+  // ASC
+  // movements.sort((a, b) => {
+  //   if (a > b) return 1;
+  //   if (a < b) return -1;
+  // });
+  movements.sort((a, b) => a - b);
+  console.log(movements);
+  // DESC
+  // movements.sort((a, b) => {
+  //   if (a > b) return -1;
+  //   if (a < b) return 1;
+  // });
+  movements.sort((a, b) => a - b);
+  console.log(movements);
+};
+
+const moreWaysOfCreatingAndFillingArrays = function () {
+  console.log(new Array(1, 2, 3, 4, 5, 6, 7, 8, 9));
+
+  // Empty arrays + fill method
+  console.log('Empty arrays + fill method');
+  const arr1 = new Array(7);
+  console.log(arr1);
+  arr1.fill(1);
+  arr1.fill(3, 3, 5);
+  console.log(arr1);
+
+  const arr2 = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+  arr2.fill(23, 2, 6);
+  console.log(arr2);
+
+  // Array.from
+  console.log('Array.from');
+  const arr3 = Array.from({ length: 7 }, () => 1);
+  console.log(arr3);
+
+  const arr4 = Array.from({ length: 7 }, (_, i) => i + 1);
+  console.log(arr4);
+
+  labelBalance.addEventListener('click', e => {
+    e.preventDefault();
+
+    const movementsUI = Array.from(
+      document.querySelectorAll('.movements__value'),
+      el => el.textContent.replace('€', '')
+    );
+    console.log(movementsUI);
+
+    const movementsUI2 = [...document.querySelectorAll('.movements__value')];
+
+    console.log(movementsUI2);
+  });
 };
