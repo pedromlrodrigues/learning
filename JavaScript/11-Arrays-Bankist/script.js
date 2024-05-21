@@ -470,3 +470,57 @@ const moreWaysOfCreatingAndFillingArrays = function () {
     console.log(movementsUI2);
   });
 };
+
+const arrayMethodsPractice = function () {
+  // 1. Amount of total money deposited in the bank
+  const bankDepositSum = accounts
+    .flatMap(acc => acc.movements)
+    .filter(mov => mov > 0)
+    .reduce((acc, mov) => acc + mov, 0);
+
+  console.log(bankDepositSum);
+
+  // 2. Count how many deposits in the bank with at least 1000 euros
+  // const deposits1000Count = accounts
+  //   .flatMap(acc => acc.movements)
+  //   .filter(mov => mov >= 1000).length;
+
+  const deposits1000Count = accounts
+    .flatMap(acc => acc.movements)
+    .reduce((acc, mov) => (mov >= 1000 ? ++acc : acc), 0);
+  console.log(deposits1000Count);
+
+  // 3. Create a new object that contains the sum of the deposits and the sum of the withdrawals with the reduce method
+  const { deposits, withdrawals } = accounts
+    .flatMap(acc => acc.movements)
+    .reduce(
+      (acc, cur) => {
+        // cur > 0 ? (acc.deposits += cur) : (acc.withdrawals += cur);
+        acc[cur > 0 ? 'deposits' : 'withdrawals'] += cur;
+        return acc;
+      },
+      { deposits: 0, withdrawals: 0 }
+    );
+  console.log(deposits, withdrawals);
+
+  // 4. Create a function to convert any String into a title case (all the words are capitalized except for some of them ex.: this is a nice title -> This Is a Nice Title)
+  const exceptions = ['a', 'an', 'the', 'but', 'or', 'on', 'in', 'with'];
+  const convertAnyStringToTitleCase = str => {
+    const titleCase = str
+      .toLowerCase()
+      .split(' ')
+      .map(word =>
+        exceptions.includes(word)
+          ? word
+          : word[0].toUpperCase() + word.substring(1)
+      )
+      .join(' ');
+
+    return titleCase;
+  };
+
+  const convertedStr = convertAnyStringToTitleCase(
+    'test a converter With an EXAMPLE'
+  );
+  console.log(convertedStr);
+};
