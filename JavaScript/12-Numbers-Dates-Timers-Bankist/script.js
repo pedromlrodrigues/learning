@@ -339,3 +339,106 @@ const mathAndRounding = function () {
   console.log((2.7).toFixed(3));
   console.log(+(2.345).toFixed('2'));
 };
+
+const theRemainderOperator = function () {
+  console.log(5 % 2);
+
+  console.log(5 % 2 === 0); // Odd number
+  console.log(10 % 2 === 0); // Even number
+
+  const isEven = n => n % 2 === 0;
+  console.log(isEven(102));
+  console.log(isEven(577));
+
+  labelBalance.addEventListener('click', () =>
+    [...document.querySelectorAll('.movements__row')]
+      .reverse()
+      .forEach(function (row, i) {
+        if (i % 2 === 0) row.style.backgroundColor = 'red';
+        if (i % 3 === 0) row.style.backgroundColor = 'yellow';
+      })
+  );
+};
+
+const numericSeparators = function () {
+  const diameter = 287_460_000_000;
+  console.log(diameter);
+
+  const price = 345_99;
+  console.log(price);
+
+  const transferFee1 = 15_00;
+  const transferFee2 = 1_500;
+  console.log(transferFee1, transferFee2);
+
+  // const PI = 3_.1415; //  Only works between numbers
+  // console.log(PI);
+
+  console.log(Number('230_000')); // Only works with numbers
+  console.log(parseInt('230_000'));
+};
+
+const workingWithBigInt = function () {
+  console.log(2 ** 53 - 1);
+  console.log(Number.MAX_SAFE_INTEGER);
+
+  console.log(11123043895123123123n);
+  console.log(BigInt(11123043895123123123));
+
+  // Operations
+  console.log(10000n + 10000n);
+  // console.log(12n * 10); // Cannot mix BigInt and other types
+  console.log(12n * BigInt(10));
+
+  // Math.sqrt(16n); // Cannot convert a BigInt value to a number
+
+  console.log(20n > 10); // true
+  console.log(20n === 20); // false
+  console.log(20n == 20); // true
+  console.log(typeof 20n); // bigint
+
+  // Divisions
+  console.log(10n / 3n);
+  console.log(10 / 3);
+};
+
+const creatingDates = function () {
+  // // Create a date
+  // const now = new Date();
+  // console.log(now);
+
+  // // Based on strings
+  // console.log(new Date('Thu May 23 2024 18:04:39'));
+  // console.log(new Date('May 23, 2024'));
+  // console.log(new Date(account1.movementsDates[0]));
+
+  // // Based on given year, month, day, etc.
+  // console.log(new Date(2037, 10, 8, 15, 23, 14));
+  // console.log(new Date(2037, 10, 31, 15, 23, 14));
+
+  // // Based on a timestamp
+  // console.log(new Date(0));
+  // console.log(new Date(3 * 24 * 60 * 60 * 1000));
+
+  // Working with dates
+  const future = new Date(2037, 10, 19, 15, 23);
+  console.log(future);
+  console.log(future.getFullYear());
+  console.log(future.getMonth());
+  console.log(future.getDate());
+  console.log(future.getDay());
+  console.log(future.getHours());
+  console.log(future.getMinutes());
+  console.log(future.getSeconds());
+  console.log(future.toISOString());
+  console.log(future.getTime());
+
+  console.log(new Date(2142256980000));
+
+  console.log(Date.now());
+
+  future.setFullYear(2041);
+  console.log(future);
+};
+
+creatingDates();
