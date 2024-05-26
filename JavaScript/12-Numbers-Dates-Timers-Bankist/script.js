@@ -81,7 +81,7 @@ const inputClosePin = document.querySelector('.form__input--pin');
 /////////////////////////////////////////////////
 // Functions
 
-const formatMovementDate = function (date) {
+const formatMovementDate = function (date, locale) {
   const calcDaysPassed = (date1, date2) =>
     Math.round(Math.abs(date2 - date1) / (1000 * 60 * 60 * 24));
 
@@ -91,12 +91,14 @@ const formatMovementDate = function (date) {
   if (daysPassed >= 1 && daysPassed < 2) return 'Yesterday';
   if (daysPassed <= 7) return `${daysPassed} days ago`;
 
-  const day = `${date.getDate()}`.padStart(2, 0);
-  const month = `${date.getMonth() + 1}`.padStart(2, 0);
-  const year = date.getFullYear();
-  const hour = `${date.getHours()}`.padStart(2, 0);
-  const minutes = `${date.getMinutes()}`.padStart(2, 0).padStart(2, 0);
-  return `${day}/${month}/${year}, ${hour}:${minutes}`;
+  return new Intl.DateTimeFormat(locale).format(date);
+
+  // const day = `${date.getDate()}`.padStart(2, 0);
+  // const month = `${date.getMonth() + 1}`.padStart(2, 0);
+  // const year = date.getFullYear();
+  // const hour = `${date.getHours()}`.padStart(2, 0);
+  // const minutes = `${date.getMinutes()}`.padStart(2, 0).padStart(2, 0);
+  // return `${day}/${month}/${year}, ${hour}:${minutes}`;
 };
 
 const displayMovements = function (account, sort = false) {
@@ -111,7 +113,7 @@ const displayMovements = function (account, sort = false) {
     const type = mov > 0 ? 'deposit' : 'withdrawal';
 
     const date = new Date(account.movementsDates[i]);
-    const displayDate = formatMovementDate(date);
+    const displayDate = formatMovementDate(date, account.locale);
 
     const html = `<div class="movements__row">
           <div class="movements__type movements__type--${type}">${
@@ -198,13 +200,27 @@ btnLogin.addEventListener('click', e => {
     labelWelcome.textContent = `Welcome back, ${currentAccount.owner}!`;
     containerApp.style.opacity = 100;
 
+    // const now = new Date();
+    // const day = `${now.getDate()}`.padStart(2, 0);
+    // const month = `${now.getMonth() + 1}`.padStart(2, 0);
+    // const year = now.getFullYear();
+    // const hour = `${now.getHours()}`;
+    // const minutes = `${now.getMinutes()}`;
+    // labelDate.textContent = `${day}/${month}/${year}, ${hour}:${minutes}`;
+
     const now = new Date();
-    const day = `${now.getDate()}`.padStart(2, 0);
-    const month = `${now.getMonth() + 1}`.padStart(2, 0);
-    const year = now.getFullYear();
-    const hour = `${now.getHours()}`;
-    const minutes = `${now.getMinutes()}`;
-    labelDate.textContent = `${day}/${month}/${year}, ${hour}:${minutes}`;
+    const options = {
+      hour: 'numeric',
+      minute: 'numeric',
+      day: 'numeric',
+      month: 'numeric',
+      year: 'numeric',
+    };
+
+    labelDate.textContent = new Intl.DateTimeFormat(
+      currentAccount.locale,
+      options
+    ).format(now);
 
     // Clear login fields
     inputLoginUsername.value = inputLoginPin.value = '';
@@ -490,4 +506,23 @@ const operationsWithDates = function () {
     Math.abs(date2 - date1) / (1000 * 60 * 60 * 24);
 
   console.log(calcDaysPassed(new Date(2037, 3, 14), new Date(2037, 3, 24)));
+};
+
+const internationalizingDates = function () {
+  // Experimenting with Intl API
+  const now = new Date();
+
+  // 2-digit, numeric, long, short, narrow
+  const options = {
+    hour: 'numeric',
+    minute: 'numeric',
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
+    weekday: 'long',
+  };
+  const locale = navigator.language;
+
+  // labelDate.textContent = new Intl.DateTimeFormat('pt-PT', options).format(now);
+  labelDate.textContent = new Intl.DateTimeFormat(locale, options).format(now);
 };
