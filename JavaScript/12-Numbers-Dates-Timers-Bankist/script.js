@@ -80,6 +80,10 @@ const inputClosePin = document.querySelector('.form__input--pin');
 
 /////////////////////////////////////////////////
 // Functions
+const formatMovementValue = function (number, locale, currency) {
+  const options = { style: 'currency', currency: currency };
+  return new Intl.NumberFormat(locale, options).format(number);
+};
 
 const formatMovementDate = function (date, locale) {
   const calcDaysPassed = (date1, date2) =>
@@ -109,6 +113,10 @@ const displayMovements = function (account, sort = false) {
     ? movements.slice().sort((a, b) => a - b)
     : movements;
 
+  const options = {
+    style: 'currency',
+    currency: account.currency,
+  };
   sortedMovements.forEach(function (mov, i) {
     const type = mov > 0 ? 'deposit' : 'withdrawal';
 
@@ -120,7 +128,11 @@ const displayMovements = function (account, sort = false) {
       i + 1
     } ${type}</div>
           <div class="movements__date">${displayDate}</div>
-          <div class="movements__value">${mov.toFixed(2)}€</div>
+          <div class="movements__value">${formatMovementValue(
+            mov,
+            account.locale,
+            account.currency
+          )}</div>
         </div>`;
     containerMovements.insertAdjacentHTML('afterbegin', html);
   });
@@ -139,21 +151,25 @@ createUsernames(accounts);
 
 const calcPrintBalance = function (acc) {
   acc.balance = acc.movements.reduce((acc, mov) => acc + mov, 0);
-  labelBalance.textContent = `${acc.balance.toFixed(2)}€`;
+  labelBalance.textContent = formatMovementValue(
+    acc.balance,
+    acc.locale,
+    acc.currency
+  );
 };
 
-const calcDisplaySummary = function (movements, interestRate) {
-  const incomingMovs = movements
+const calcDisplaySummary = function (account) {
+  const incomingMovs = account.movements
     .filter(mov => mov > 0)
     .reduce((acc, mov) => acc + mov, 0);
 
-  const outgoingMovs = movements
+  const outgoingMovs = account.movements
     .filter(mov => mov < 0)
     .reduce((acc, mov) => acc + mov, 0);
 
-  const interest = movements
+  const interest = account.movements
     .filter(mov => mov > 0)
-    .map(mov => (mov * interestRate) / 100)
+    .map(mov => (mov * account.interestRate) / 100)
     .filter((int, i, arr) => {
       // console.log(arr);
       return int >= 1;
@@ -162,9 +178,22 @@ const calcDisplaySummary = function (movements, interestRate) {
 
   // console.log(incomingMovs, outgoingMovs, interest);
 
-  labelSumIn.textContent = `${incomingMovs.toFixed(2)}€`;
-  labelSumOut.textContent = `${Math.abs(outgoingMovs.toFixed(2))}€`;
-  labelSumInterest.textContent = `${interest.toFixed(2)}€`;
+  labelSumIn.textContent = formatMovementValue(
+    incomingMovs,
+    account.locale,
+    account.currency
+  );
+  labelSumOut.textContent = formatMovementValue(
+    Math.abs(outgoingMovs),
+    account.locale,
+    account.currency
+  );
+
+  labelSumInterest.textContent = formatMovementValue(
+    Math.abs(interest),
+    account.locale,
+    account.currency
+  );
 };
 
 const updateUI = function () {
@@ -175,7 +204,7 @@ const updateUI = function () {
   calcPrintBalance(currentAccount);
 
   // Display summary
-  calcDisplaySummary(currentAccount.movements, currentAccount.interestRate);
+  calcDisplaySummary(currentAccount);
 };
 
 let currentAccount;
@@ -525,4 +554,23 @@ const internationalizingDates = function () {
 
   // labelDate.textContent = new Intl.DateTimeFormat('pt-PT', options).format(now);
   labelDate.textContent = new Intl.DateTimeFormat(locale, options).format(now);
+};
+
+const internationalizingNumbers = function () {
+  const num = 3123213.32;
+
+  const options = {
+    style: 'currency',
+    unit: 'mile-per-hour',
+    currency: 'EUR',
+    // useGrouping: false
+  };
+
+  console.log('US: ', new Intl.NumberFormat('en-US', options).format(num));
+  console.log('Germany: ', new Intl.NumberFormat('de-DE', options).format(num));
+  console.log('Syria: ', new Intl.NumberFormat('ar-SY', options).format(num));
+  console.log(
+    navigator.language,
+    new Intl.NumberFormat(navigator.language, options).format(num)
+  );
 };
