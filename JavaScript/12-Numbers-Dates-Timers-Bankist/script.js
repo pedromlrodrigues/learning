@@ -113,10 +113,6 @@ const displayMovements = function (account, sort = false) {
     ? movements.slice().sort((a, b) => a - b)
     : movements;
 
-  const options = {
-    style: 'currency',
-    currency: account.currency,
-  };
   sortedMovements.forEach(function (mov, i) {
     const type = mov > 0 ? 'deposit' : 'withdrawal';
 
@@ -207,12 +203,34 @@ const updateUI = function () {
   calcDisplaySummary(currentAccount);
 };
 
-let currentAccount;
+const startLogoutTimer = function () {
+  // Set time to 5 minutes
+  let time = 10;
+  const tick = function () {
+    const min = String(Math.trunc(time / 60)).padStart(2, 0);
+    const sec = String(time % 60).padStart(2, 0);
+    console.log(`You will be logged out in ${min}:${sec}`);
+    labelTimer.textContent = `${min}:${sec}`;
 
-// FAKE ALWAYS LOGGED IN
-currentAccount = account1;
-updateUI();
-containerApp.style.opacity = 100;
+    if (time === 0) {
+      clearInterval(timer);
+      containerApp.style.opacity = 0;
+      labelWelcome.textContent = 'Log in to get started';
+    }
+    time--;
+  };
+
+  tick();
+  const timer = setInterval(tick, 1000);
+  return timer;
+};
+
+const resetLogoutTimer = function () {
+  clearInterval(logoutTimer);
+  logoutTimer = startLogoutTimer();
+};
+
+let currentAccount, logoutTimer;
 
 btnLogin.addEventListener('click', e => {
   e.preventDefault();
@@ -255,6 +273,9 @@ btnLogin.addEventListener('click', e => {
     inputLoginUsername.value = inputLoginPin.value = '';
     inputLoginPin.blur();
 
+    if (logoutTimer) clearInterval(logoutTimer);
+    logoutTimer = startLogoutTimer();
+
     updateUI();
   }
 });
@@ -283,6 +304,7 @@ btnTransfer.addEventListener('click', e => {
     currentAccount.movementsDates.push(new Date().toISOString());
     updateUI();
   }
+  resetLogoutTimer();
 });
 
 btnLoan.addEventListener('click', e => {
@@ -294,14 +316,17 @@ btnLoan.addEventListener('click', e => {
     loanAmount > 0 &&
     currentAccount.movements.some(mov => mov >= 0.1 * loanAmount)
   ) {
-    currentAccount.movements.push(loanAmount);
-    currentAccount.movementsDates.push(new Date().toISOString());
-    updateUI();
+    setTimeout(() => {
+      currentAccount.movements.push(loanAmount);
+      currentAccount.movementsDates.push(new Date().toISOString());
+      updateUI();
+    }, 3000);
   }
 
   // Clear request loan fields
   inputLoanAmount.value = '';
   inputLoanAmount.blur();
+  resetLogoutTimer();
 });
 
 btnClose.addEventListener('click', e => {
@@ -329,6 +354,7 @@ btnClose.addEventListener('click', e => {
     containerApp.style.opacity = 0;
     labelWelcome.textContent = 'Log in to get started';
   }
+  resetLogoutTimer();
 });
 
 let sorted = false;
@@ -336,6 +362,8 @@ btnSort.addEventListener('click', e => {
   e.preventDefault();
   sorted = !sorted;
   displayMovements(currentAccount, sorted);
+
+  resetLogoutTimer();
 });
 
 /////////////////////////////////////////////////
@@ -573,4 +601,26 @@ const internationalizingNumbers = function () {
     navigator.language,
     new Intl.NumberFormat(navigator.language, options).format(num)
   );
+};
+
+const timers = function () {
+  // setTimeout
+  const ingredients = ['olives', 'spinach'];
+  const ingredientsTimeout = setTimeout(
+    (ing1, ing2) => console.log(`Ingredients: ${ing1} and ${ing2}`),
+    3000,
+    ...ingredients
+  );
+  console.log('Waiting...');
+
+  if (ingredients.includes('spinach')) {
+    clearTimeout(ingredientsTimeout);
+  }
+
+  // setInterval
+  setInterval((ing1, ing2) => {
+    const now = new Date();
+    const options = { hour: '2-digit', minute: '2-digit', second: '2-digit' };
+    console.log(new Intl.DateTimeFormat('pt-PT', options).format(now));
+  }, 1000);
 };
