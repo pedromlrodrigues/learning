@@ -189,3 +189,36 @@ const typesOfEventsAndEventHandlers = function () {
   //   alert('addEventListener: Great! You are reading the heading');
   // };
 };
+
+const eventPropagation = function () {
+  // rgb(255,255,255)
+  const randomInt = (min, max) =>
+    Math.floor(Math.random() * (max - min + 1) + min);
+  const randomColor = () =>
+    `rgb(${randomInt(0, 255)},${randomInt(0, 255)},${randomInt(0, 255)})`;
+
+  document.querySelector('.nav__link').addEventListener('click', function (e) {
+    this.style.backgroundColor = randomColor();
+    console.log('NAV_LINK', e.target, e.currentTarget);
+    console.log(this === e.currentTarget);
+
+    // Stop propagation (not recommended)
+    // e.stopPropagation();
+  });
+
+  document.querySelector('.nav__links').addEventListener('click', function (e) {
+    this.style.backgroundColor = randomColor();
+    console.log('NAV_LINKS', e.target, e.currentTarget);
+  });
+
+  document.querySelector('.nav').addEventListener(
+    'click',
+    function (e) {
+      this.style.backgroundColor = randomColor();
+      console.log('NAV', e.target, e.currentTarget);
+    },
+    false // true = catch events on capturing phase
+  );
+};
+
+eventPropagation();
