@@ -30,9 +30,19 @@ document.addEventListener('keydown', function (e) {
   }
 });
 
+// Implement Smooth Scrolling
+const btnScrollTo = document.querySelector('.btn--scroll-to');
+const section1 = document.querySelector('#section--1');
+
+btnScrollTo.addEventListener('click', function (e) {
+  e.preventDefault();
+  section1.scrollIntoView({ behavior: 'smooth' });
+});
+
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
 // LECTURES
+let message;
 const selectingCreatingAndDeletingElements = function () {
   // ### Selecting Elements ###
   console.log(document.documentElement);
@@ -53,7 +63,7 @@ const selectingCreatingAndDeletingElements = function () {
   document.getElementsByClassName('btn');
 
   // ### Creating and Insertings Elements ###
-  const message = document.createElement('div');
+  message = document.createElement('div');
   message.classList.add('cookie-message');
   // message.textContent = 'We use cookies for improved functionality and analytics.';
   message.innerHTML =
@@ -78,4 +88,104 @@ const selectingCreatingAndDeletingElements = function () {
   });
 };
 
-selectingCreatingAndDeletingElements();
+const stylesAttributesAndClasses = function () {
+  // Styles
+  {
+    message.style.backgroundColor = '#37383d';
+    message.style.width = '120%';
+
+    // .style only returns applied inline styles
+    console.log(message.style.height); // empty
+    console.log(message.style.backgroundColor); // color
+
+    console.log(getComputedStyle(message).color);
+    console.log(getComputedStyle(message).height);
+
+    message.style.height =
+      Number.parseFloat(getComputedStyle(message).height) + 40 + 'px';
+
+    document.documentElement.style.setProperty('--color-primary', 'orangered');
+  }
+
+  // Attributes
+  {
+    const logo = document.querySelector('.nav__logo');
+    console.log(logo.src); // absolute path
+    console.log(logo.alt);
+    console.log(logo.className);
+
+    // Non-standard
+    console.log(logo['custom- attr']); // undefined
+    console.log(logo.getAttribute('custom-attr'));
+    logo.setAttribute('company', 'Bankist');
+
+    console.log(logo.getAttribute('src')); // relative path
+
+    const link = document.querySelector('.nav__link--btn');
+    console.log(link.href);
+    console.log(link.getAttribute('href'));
+
+    // Data attributes
+    console.log(logo.dataset.versionNumber);
+    console.log(logo.dataset.test);
+  }
+
+  // Classes
+  {
+    logo.classList.add('c', 'p');
+    logo.classList.remove('c', 'p');
+    logo.classList.toggle('c');
+    logo.classList.contains('c');
+
+    // Don't use because it will override
+    // logo.className = 'pedro';
+  }
+};
+
+const implementingSmoothScrolling = function () {
+  const btnScrollTo = document.querySelector('.btn--scroll-to');
+  const section1 = document.querySelector('#section--1');
+
+  btnScrollTo.addEventListener('click', function (e) {
+    e.preventDefault();
+    const s1coords = section1.getBoundingClientRect();
+    console.log(s1coords);
+
+    // console.log(e.target.getBoundingClientRect());
+    // console.log('Current scroll (X/Y)', window.scrollX, window.scrollY);
+    // console.log(
+    //   'Height/Width viewport',
+    //   document.documentElement.clientHeight,
+    //   document.documentElement.clientWidth
+    // );
+
+    // Scrolling
+    {
+      // Old way of implemeting
+      // window.scrollTo(s1coords.left, s1coords.top + window.scrollY);
+      // window.scrollTo({
+      //   left: s1coords.left + window.scrollX,
+      //   top: s1coords.top + window.scrollY,
+      //   behavior: 'smooth',
+      // });
+
+      section1.scrollIntoView({ behavior: 'smooth' });
+    }
+  });
+};
+
+const typesOfEventsAndEventHandlers = function () {
+  const h1 = document.querySelector('h1');
+  const alertH1 = () => {
+    alert('addEventListener: Great! You are reading the heading');
+
+    h1.removeEventListener('mouseenter', alertH1);
+  };
+  // Can have multiple event listeners applied to the same DOM Element
+  h1.addEventListener('mouseenter', alertH1);
+
+  // Old way of listening to events
+  // h1.onmouseenter = () => {
+  //   alert('addEventListener: Great! You are reading the heading');
+  // };
+};
