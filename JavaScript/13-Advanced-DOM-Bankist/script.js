@@ -1,11 +1,18 @@
 'use strict';
 
+const header = document.querySelector('.header');
+const nav = document.querySelector('.nav');
 const modal = document.querySelector('.modal');
 const overlay = document.querySelector('.overlay');
 const btnCloseModal = document.querySelector('.btn--close-modal');
 const btnsOpenModal = document.querySelectorAll('.btn--show-modal');
 const btnScrollTo = document.querySelector('.btn--scroll-to');
 const section1 = document.querySelector('#section--1');
+
+// Select tabs elements
+const tabs = document.querySelectorAll('.operations__tab');
+const tabsContainer = document.querySelector('.operations__tab-container');
+const tabsContent = document.querySelectorAll('.operations__content');
 
 const openModal = function (e) {
   e.preventDefault();
@@ -56,6 +63,73 @@ document.querySelector('.nav__links').addEventListener('click', function (e) {
     section.scrollIntoView({ behavior: 'smooth' });
   }
 });
+
+/////////////////////////////////////////////////
+// Operations tabbed component
+tabsContainer.addEventListener('click', function (e) {
+  const elClicked = e.target.closest('button');
+
+  // Guard clause
+  if (![...tabs].includes(elClicked)) return;
+
+  // Activate tab
+  tabs.forEach(tab => tab.classList.remove('operations__tab--active'));
+  elClicked.classList.add('operations__tab--active');
+
+  // Activate content
+  tabsContent.forEach(tabContent =>
+    tabContent.classList.remove('operations__content--active')
+  );
+  document
+    .querySelector(`.operations__content--${elClicked.dataset.tab}`)
+    .classList.add('operations__content--active');
+});
+
+/////////////////////////////////////////////////
+// Nav links fade animation on hover
+const onMouseHover = function (e) {
+  if (!e.target.classList.contains('nav__link')) return;
+
+  const elClicked = e.target;
+  const parent = elClicked.closest('.nav');
+  const siblings = parent.querySelectorAll('.nav__link');
+  const logo = elClicked.closest('.nav').querySelector('img');
+
+  siblings.forEach(el => {
+    if (el !== elClicked) el.style.opacity = this;
+  });
+  logo.style.opacity = this;
+};
+
+// Passing "argument" into onMouseHover function
+nav.addEventListener('mouseover', onMouseHover.bind(0.5));
+nav.addEventListener('mouseout', onMouseHover.bind(1));
+
+/////////////////////////////////////////////////
+// Sticky nav
+
+// Bad practice because the callback function is triggered multiple times (scroll event)
+// const section1InitialCoords = section1.getBoundingClientRect();
+// window.addEventListener('scroll', function () {
+//   if (window.scrollY >= section1InitialCoords.top) nav.classList.add('sticky')
+//   else nav.classList.remove('sticky');
+// });
+
+const navHeight = nav.getBoundingClientRect().height;
+
+const stickyNav = function (entries) {
+  const [entry] = entries;
+  if (!entry.isIntersecting) nav.classList.add('sticky');
+  else nav.classList.remove('sticky');
+};
+
+const observerOptions = {
+  root: null,
+  threshold: 0,
+  rootMargin: `-${navHeight}px`,
+};
+const headerObserver = new IntersectionObserver(stickyNav, observerOptions);
+headerObserver.observe(header);
 
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
@@ -269,4 +343,17 @@ const domTraversing = function () {
       el.style.transform = 'scale(0.5)';
     }
   });
+};
+
+const theIntersectionObserverApi = function () {
+  const observerCallback = function (entries, observer) {
+    entries.forEach(entry => console.log(entry));
+  };
+
+  const observerOptions = {
+    root: null, // root null means viewport
+    threshold: [0, 0.2], // callback is called everytime it passes the configured thresholds values
+  };
+  const observer = new IntersectionObserver(observerCallback, observerOptions);
+  observer.observe(section1);
 };
