@@ -483,3 +483,22 @@ const theIntersectionObserverApi = function () {
   const observer = new IntersectionObserver(observerCallback, observerOptions);
   observer.observe(section1);
 };
+
+const lifecycleDOMEvents = function () {
+  document.addEventListener('DOMContentLoaded', function (event) {
+    console.log('HTML parsed and DOM tree built!', event);
+  });
+
+  window.addEventListener('load', function (event) {
+    console.log('Page fully loaded', event);
+  });
+
+  // window.addEventListener('beforeunload', function (event) {
+  //   event.preventDefault();
+
+  //   console.log(event);
+  //   event.returnValue = '';
+  // });
+};
+
+lifecycleDOMEvents();
