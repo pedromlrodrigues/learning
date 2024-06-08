@@ -150,7 +150,7 @@ const sectionObserver = new IntersectionObserver(revealSection, {
 const allSections = document.querySelectorAll('.section');
 allSections.forEach(section => {
   sectionObserver.observe(section);
-  section.classList.add('section--hidden');
+  // section.classList.add('section--hidden');
 });
 
 /////////////////////////////////////////////////
@@ -177,6 +177,85 @@ const imgObserver = new IntersectionObserver(loadImg, {
 });
 
 imgTargets.forEach(img => imgObserver.observe(img));
+
+/////////////////////////////////////////////////
+// Slider Component
+const slider = function () {
+  const slides = document.querySelectorAll('.slide');
+  const btnLeft = document.querySelector('.slider__btn--left');
+  const btnRight = document.querySelector('.slider__btn--right');
+  const dotContainer = document.querySelector('.dots');
+
+  let curSlide = 0;
+  let maxSlides = slides.length - 1;
+
+  // Functions
+  const createDots = function () {
+    slides.forEach((_, i) => {
+      dotContainer.insertAdjacentHTML(
+        'beforeend',
+        `<button class="dots__dot ${
+          i === 0 && 'dots__dot--active'
+        }" data-slide="${i}"></button>`
+      );
+    });
+  };
+
+  const activateDot = slide => {
+    document
+      .querySelector('.dots__dot--active')
+      .classList.remove('dots__dot--active');
+    document
+      .querySelector(`.dots__dot[data-slide="${slide}"]`)
+      .classList.add('dots__dot--active');
+  };
+
+  const goToSlide = function (slideNo) {
+    slides.forEach((slide, i) => {
+      slide.style.transform = `translateX(${(i - slideNo) * 100}%)`;
+    });
+  };
+
+  const nextSlide = () => {
+    curSlide === maxSlides ? (curSlide = 0) : curSlide++;
+
+    goToSlide(curSlide);
+    activateDot(curSlide);
+  };
+
+  const prevSlide = () => {
+    curSlide === 0 ? (curSlide = maxSlides) : curSlide--;
+
+    goToSlide(curSlide);
+    activateDot(curSlide);
+  };
+
+  // Init function
+  const init = function () {
+    createDots();
+    goToSlide(0);
+  };
+
+  init();
+
+  // Event handlers
+  btnRight.addEventListener('click', nextSlide);
+  btnLeft.addEventListener('click', prevSlide);
+  document.addEventListener('keydown', event => {
+    if (event.key === 'ArrowLeft') prevSlide();
+    if (event.key === 'ArrowRight') nextSlide();
+  });
+  dotContainer.addEventListener('click', event => {
+    if (event.target.classList.contains('dots__dot')) {
+      const { slide } = event.target.dataset;
+
+      goToSlide(slide);
+      activateDot(slide);
+    }
+  });
+};
+
+slider();
 
 /////////////////////////////////////////////////
 /////////////////////////////////////////////////
