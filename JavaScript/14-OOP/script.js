@@ -160,4 +160,26 @@ const gettersAndSetters = function () {
   console.log(margarida);
 };
 
-gettersAndSetters();
+const staticMethods = function () {
+  console.log(Array.from(document.querySelectorAll("h1")));
+  // console.log([1, 2, 3].from());
+
+  const Person = function (firstName, birthYear) {
+    this.firstName = firstName;
+    this.birthYear = birthYear;
+  };
+
+  Person.hey = function () {
+    console.log("Hey there 👋");
+    console.log(this);
+  };
+
+  const pedro = new Person("Pedro", "1996");
+  Person.hey();
+
+  // Error: from is part of the Person namespace and is attached to the constructor and not to the prototype
+  // Static methods are not available on the instances
+  // pedro.hey();
+};
+
+staticMethods();
