@@ -182,4 +182,24 @@ const staticMethods = function () {
   // pedro.hey();
 };
 
-staticMethods();
+const objectCreate = function () {
+  const PersonProto = {
+    calcAge() {
+      console.log(2024 - this.birthYear);
+    },
+    init(firstName, birthYear) {
+      this.firstName = firstName;
+      this.birthYear = birthYear;
+    },
+  };
+
+  const pedro = Object.create(PersonProto);
+  pedro.name = "Pedro";
+  pedro.birthYear = 1996;
+  console.log(pedro);
+  pedro.calcAge();
+
+  const margarida = Object.create(PersonProto);
+  margarida.init("Margarida", "1996");
+  margarida.calcAge();
+};
