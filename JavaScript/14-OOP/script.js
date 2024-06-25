@@ -203,3 +203,43 @@ const objectCreate = function () {
   margarida.init("Margarida", "1996");
   margarida.calcAge();
 };
+
+const inheritanceBetweenClassesConstructorFunctions = function () {
+  const Person = function (firstName, birthYear) {
+    this.firstName = firstName;
+    this.birthYear = birthYear;
+  };
+
+  Person.prototype.calcAge = function () {
+    console.log(2024 - this.birthYear);
+  };
+
+  const Student = function (firstName, birthYear, course) {
+    Person.call(this, firstName, birthYear);
+    this.course = course;
+  };
+
+  // If it is set after adding a new method to the prototype, Object.create will override
+  Student.prototype = Object.create(Person.prototype);
+
+  Student.prototype.introduce = function () {
+    console.log(`My name is ${this.firstName} and I study ${this.course}`);
+  };
+
+  const pedro = new Student("Pedro", 2003, "Computer Science");
+  console.log(pedro);
+  pedro.introduce();
+  pedro.calcAge();
+
+  console.log(pedro.__proto__);
+  console.log(pedro.__proto__.__proto__);
+
+  console.log(pedro instanceof Student);
+  console.log(pedro instanceof Person);
+  console.log(pedro instanceof Object);
+
+  Student.prototype.constructor = Student;
+  console.dir(Student.prototype.constructor);
+};
+
+inheritanceBetweenClassesConstructorFunctions();
