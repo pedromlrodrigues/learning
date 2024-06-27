@@ -242,4 +242,37 @@ const inheritanceBetweenClassesConstructorFunctions = function () {
   console.dir(Student.prototype.constructor);
 };
 
-inheritanceBetweenClassesConstructorFunctions();
+const inheritanceBetweenClassesES6Classes = function () {
+  class PersonCl {
+    constructor(firstName, birthYear) {
+      this.firstName = firstName;
+      this.birthYear = birthYear;
+    }
+
+    calcAge() {
+      console.log(2024 - this.birthYear);
+    }
+
+    greet() {
+      console.log(`Hey ${this.firstName}`);
+    }
+  }
+
+  class StudentCl extends PersonCl {
+    constructor(firstName, birthYear, course) {
+      super(firstName, birthYear);
+      this.course = course;
+    }
+
+    calcAge() {
+      console.log(2040 - this.birthYear);
+    }
+  }
+
+  const pedro = new StudentCl("Pedro", 1996, "Computer Science");
+  console.log(pedro);
+  pedro.greet();
+  pedro.calcAge();
+};
+
+inheritanceBetweenClassesES6Classes();
