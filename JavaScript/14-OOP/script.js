@@ -275,4 +275,77 @@ const inheritanceBetweenClassesES6Classes = function () {
   pedro.calcAge();
 };
 
-inheritanceBetweenClassesES6Classes();
+const inheritanceBetweenClassesObjectCreate = function () {
+  const PersonProto = {
+    calcAge() {
+      console.log(2024 - this.birthYear);
+    },
+    init(firstName, birthYear) {
+      this.firstName = firstName;
+      this.birthYear = birthYear;
+    },
+  };
+
+  const pedro = Object.create(PersonProto);
+
+  const StudentProto = Object.create(PersonProto);
+
+  StudentProto.init = function (firstName, birthYear, course) {
+    PersonProto.init.call(this, firstName, birthYear);
+    this.course = course;
+  };
+
+  StudentProto.introduce = function () {
+    console.log(`My name is ${this.firstName} and I study ${this.course}`);
+  };
+
+  const margarida = Object.create(StudentProto);
+  margarida.init("Margarida", 1996, "Accounting");
+
+  console.log(margarida);
+  margarida.introduce();
+  margarida.calcAge();
+};
+
+const anotherClassExample = function () {
+  class Account {
+    constructor(owner, currency, pin, movements) {
+      this.owner = owner;
+      this.currency = currency;
+      this.pin = pin;
+      this.movements = [];
+      this.locale = navigator.language;
+
+      console.log(`Thanks for opening an account, ${this.owner}!`);
+    }
+
+    // Public interface
+    deposit(val) {
+      this.movements.push(val);
+    }
+
+    withdraw(val) {
+      this.deposit(-val);
+    }
+
+    approveLoan() {
+      return true;
+    }
+
+    requestLoan(val) {
+      if (this.approveLoan()) {
+        this.movements.push(val);
+        console.log(`Loan approved: +${val}`);
+      }
+    }
+  }
+
+  const acc1 = new Account("Pedro", "EUR", 1111);
+  console.log(acc1);
+
+  acc1.deposit(250);
+  acc1.withdraw(140);
+  acc1.requestLoan(1000);
+};
+
+anotherClassExample();
