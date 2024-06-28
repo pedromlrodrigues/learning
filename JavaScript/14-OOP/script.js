@@ -307,45 +307,52 @@ const inheritanceBetweenClassesObjectCreate = function () {
   margarida.calcAge();
 };
 
-const anotherClassExample = function () {
-  class Account {
-    constructor(owner, currency, pin, movements) {
-      this.owner = owner;
-      this.currency = currency;
-      this.pin = pin;
-      this.movements = [];
-      this.locale = navigator.language;
+const anotherClassExampleAndEncapsulationProtectedPropertiesAndMethods =
+  function () {
+    class Account {
+      constructor(owner, currency, pin, movements) {
+        this.owner = owner;
+        this.currency = currency;
+        // protected properties convention, it should not be manipulated directly
+        this._pin = pin;
+        this._movements = [];
+        this.locale = navigator.language;
 
-      console.log(`Thanks for opening an account, ${this.owner}!`);
-    }
+        console.log(`Thanks for opening an account, ${this.owner}!`);
+      }
 
-    // Public interface
-    deposit(val) {
-      this.movements.push(val);
-    }
+      // Public interface
+      getMovements() {
+        return this._movements;
+      }
 
-    withdraw(val) {
-      this.deposit(-val);
-    }
+      deposit(val) {
+        this._movements.push(val);
+      }
 
-    approveLoan() {
-      return true;
-    }
+      withdraw(val) {
+        this.deposit(-val);
+      }
 
-    requestLoan(val) {
-      if (this.approveLoan()) {
-        this.movements.push(val);
-        console.log(`Loan approved: +${val}`);
+      _approveLoan() {
+        return true;
+      }
+
+      requestLoan(val) {
+        if (this._approveLoan()) {
+          this.deposit(val);
+          console.log(`Loan approved: +${val}`);
+        }
       }
     }
-  }
 
-  const acc1 = new Account("Pedro", "EUR", 1111);
-  console.log(acc1);
+    const acc1 = new Account("Pedro", "EUR", 1111);
+    console.log(acc1);
 
-  acc1.deposit(250);
-  acc1.withdraw(140);
-  acc1.requestLoan(1000);
-};
+    acc1.deposit(250);
+    acc1.withdraw(140);
+    acc1.requestLoan(1000);
+    console.log(acc1.getMovements());
+  };
 
-anotherClassExample();
+anotherClassExampleAndEncapsulationProtectedPropertiesAndMethods();
