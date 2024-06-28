@@ -310,7 +310,7 @@ const inheritanceBetweenClassesObjectCreate = function () {
 const anotherClassExampleAndEncapsulationProtectedPropertiesAndMethods =
   function () {
     class Account {
-      constructor(owner, currency, pin, movements) {
+      constructor(owner, currency, pin) {
         this.owner = owner;
         this.currency = currency;
         // protected properties convention, it should not be manipulated directly
@@ -355,4 +355,87 @@ const anotherClassExampleAndEncapsulationProtectedPropertiesAndMethods =
     console.log(acc1.getMovements());
   };
 
-anotherClassExampleAndEncapsulationProtectedPropertiesAndMethods();
+const encapsulationPrivateClassFieldsAndMethodsAndChainingMethods =
+  function () {
+    // 1) Public fields
+    // 2) Private fields
+    // 3) Public methods
+    // 4) Private methods
+    // (there is also the static version)
+
+    class Account {
+      // 1) Public fields (instances)
+      locale = navigator.language;
+
+      // 2) Private fields (instances)
+      #movements = [];
+      #pin;
+
+      constructor(owner, currency, pin) {
+        this.owner = owner;
+        this.currency = currency;
+        this.#pin = pin;
+        // this._movements = [];
+        // this.locale = navigator.language;
+      }
+
+      // 3) Public methods
+
+      // Public interface
+      getMovements() {
+        return this.#movements;
+      }
+
+      deposit(val) {
+        this.#movements.push(val);
+        return this;
+      }
+
+      withdraw(val) {
+        this.deposit(-val);
+        return this;
+      }
+
+      requestLoan(val) {
+        if (this.#approveLoan()) {
+          this.deposit(val);
+          console.log(`Loan approved: +${val}`);
+          return this;
+        }
+      }
+
+      static helper() {
+        console.log("I am helping!");
+      }
+
+      // 4) Private methods
+      #approveLoan() {
+        return true;
+      }
+    }
+
+    const acc1 = new Account("Pedro", "EUR", 1111);
+    acc1.deposit(250);
+    acc1.withdraw(140);
+    acc1.requestLoan(1000);
+
+    console.log(acc1);
+
+    // Property '#movements' is not accessible outside class 'Account' because it has a private identifier.
+    // console.log(acc1.#movements);
+    console.log(acc1.getMovements());
+
+    // Property '#pin' is not accessible outside class 'Account' because it has a private identifier.
+    // console.log(acc1.#pin);
+
+    // console.log(acc1.#approveLoan(100));
+
+    Account.helper();
+
+    // Chaining methods
+    acc1.deposit(300).withdraw(560);
+
+    console.log(acc1.getMovements());
+  };
+
+encapsulationPrivateClassFieldsAndMethodsAndChainingMethods();
