@@ -107,7 +107,7 @@ const fetchApiAndPromises = function () {
       })
       .then(data => renderCountry(data, 'neighbour'))
       .catch(err => {
-        console.log(`${err} 💥😁`);
+        console.error(`${err} 💥😁`);
         renderError(`Something went wrong! 💥 ${err.message}. Try again!`);
       })
       .finally(() => {
@@ -120,4 +120,72 @@ const fetchApiAndPromises = function () {
   });
 };
 
-fetchApiAndPromises();
+// Top level code priority > Microtasks queue priority > Callback queue priority
+const theEventLoopInPractice = function () {
+  console.log('Test start');
+  setTimeout(() => console.log('0 sec timer'), 0);
+  Promise.resolve('Resolved promise 1').then(res => console.log(res));
+  Promise.resolve('Resolved promise 2').then(res => {
+    for (let i = 0; i < 1000000000; i++) {}
+    console.log(res);
+  });
+  console.log('Test end');
+};
+
+const buildingASimplePromise = function () {
+  const lotteryPromise = new Promise(function (resolve, reject) {
+    console.log('Lottery draw is happening 🔮');
+
+    setTimeout(function () {
+      if (Math.random() >= 0.5) {
+        resolve('We WON the lottery!!! 💰💰💰');
+      } else {
+        reject(new Error('We lost the lottery! 😤😤😤'));
+      }
+    }, 2000);
+  });
+
+  lotteryPromise.then(res => console.log(res)).catch(res => console.error(res));
+
+  // Promisifying setTimeout
+  const wait = function (seconds) {
+    return new Promise(function (resolve) {
+      setTimeout(() => resolve(), seconds * 1000);
+    });
+  };
+
+  // setTimeout(() => {
+  //   console.log('1 second passed');
+  //   setTimeout(() => {
+  //     console.log('2 seconds passed');
+  //     setTimeout(() => {
+  //       console.log('3 seconds passed');
+  //       setTimeout(() => {
+  //         console.log('4 seconds passed');
+  //       }, 1000);
+  //     }, 1000);
+  //   }, 1000);
+  // }, 1000);
+
+  wait(1)
+    .then(() => {
+      console.log('1 second passed');
+      return wait(1);
+    })
+    .then(() => {
+      console.log('2 seconds passed');
+      return wait(1);
+    })
+    .then(() => {
+      console.log('3 seconds passed');
+      return wait(1);
+    })
+    .then(() => {
+      console.log('4 seconds passed');
+    });
+
+  Promise.resolve('abc').then(res => console.log(res));
+  Promise.reject(new Error('Error')).catch(res => console.error(res));
+};
+
+buildingASimplePromise();
