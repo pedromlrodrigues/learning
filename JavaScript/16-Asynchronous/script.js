@@ -188,4 +188,64 @@ const buildingASimplePromise = function () {
   Promise.reject(new Error('Error')).catch(res => console.error(res));
 };
 
-buildingASimplePromise();
+const promisifyingTheGeolocationApi = function () {
+  // Async task
+  // navigator.geolocation.getCurrentPosition(
+  //   pos => console.log(pos),
+  //   err => console.error(err)
+  // );
+
+  const getPosition = function () {
+    return new Promise(function (resolve, reject) {
+      // navigator.geolocation.getCurrentPosition(
+      //   pos => resolve(pos),
+      //   err => reject(new Error(err))
+      // );
+      navigator.geolocation.getCurrentPosition(resolve, reject);
+    });
+  };
+
+  getPosition()
+    .then(pos => console.log(pos))
+    .catch(err => console.error(err));
+
+  console.log('Getting position');
+
+  const whereAmI = function () {
+    const geocodeUrl = 'https://geocode.xyz';
+    const countriesApiUrl = 'https://countries-api-836d.onrender.com/countries';
+
+    getPosition()
+      .then(pos => {
+        const { latitude: lat, longitude: lng } = pos.coords;
+
+        return fetch(`${geocodeUrl}/${lat},${lng}?geoit=json`);
+      })
+      .then(res => {
+        if (!res.ok)
+          throw new Error(
+            `Access to the requested resource is forbidden! ${res.status} 💥💥💥`
+          );
+
+        return res.json();
+      })
+      .then(data => {
+        console.log(`You are in ${data.city}, ${data.country}`);
+        return fetch(`${countriesApiUrl}/name/${data.country}`);
+      })
+      .then(res2 => {
+        if (!res2.ok) throw new Error(`${res2.status} 💥💥💥`);
+
+        return res2.json();
+      })
+      .then(data2 => renderCountry(data2[0]))
+      .catch(err => console.error(err.message))
+      .finally(() => {
+        countriesContainer.style.opacity = 1;
+      });
+  };
+
+  btn.addEventListener('click', whereAmI);
+};
+
+promisifyingTheGeolocationApi();
