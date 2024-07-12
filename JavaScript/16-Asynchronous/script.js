@@ -3,6 +3,9 @@
 const btn = document.querySelector('.btn-country');
 const countriesContainer = document.querySelector('.countries');
 
+const geocodeUrl = 'https://geocode.xyz';
+const countriesApiUrl = 'https://countries-api-836d.onrender.com/countries';
+
 const renderCountry = function (data, className = '') {
   const html = `
           <article class="country ${className}">
@@ -24,10 +27,12 @@ const renderCountry = function (data, className = '') {
         `;
 
   countriesContainer.insertAdjacentHTML('beforeend', html);
+  countriesContainer.style.opacity = 1;
 };
 
 const renderError = function (message) {
   countriesContainer.insertAdjacentText('beforeend', message);
+  countriesContainer.style.opacity = 1;
 };
 
 ///////////////////////////////////////
@@ -212,9 +217,6 @@ const promisifyingTheGeolocationApi = function () {
   console.log('Getting position');
 
   const whereAmI = function () {
-    const geocodeUrl = 'https://geocode.xyz';
-    const countriesApiUrl = 'https://countries-api-836d.onrender.com/countries';
-
     getPosition()
       .then(pos => {
         const { latitude: lat, longitude: lng } = pos.coords;
@@ -248,4 +250,62 @@ const promisifyingTheGeolocationApi = function () {
   btn.addEventListener('click', whereAmI);
 };
 
-promisifyingTheGeolocationApi();
+const consumingPromisesWithAsyncAwaitAndErrorHandlingWithTryCatch =
+  function () {
+    const getPosition = function () {
+      return new Promise(function (resolve, reject) {
+        navigator.geolocation.getCurrentPosition(resolve, reject);
+      });
+    };
+
+    const whereAmI = async function () {
+      try {
+        // Get current position
+        const pos = await getPosition();
+        const { latitude: lat, longitude: lng } = pos.coords;
+
+        // Reverse geocoding (convert location into a human readable address)
+        const resGeo = await fetch(`${geocodeUrl}/${lat},${lng}?geoit=json`);
+        if (!resGeo.ok) throw new Error('Problem getting location data');
+
+        const dataGeo = await resGeo.json();
+
+        // Fetch Country Data
+        const res = await fetch(`${countriesApiUrl}/name/${dataGeo.country}`);
+        if (!resGeo.ok) throw new Error('Problem getting country data');
+
+        const [data] = await res.json();
+        renderCountry(data);
+
+        return `You are in ${dataGeo.city}, ${dataGeo.country}`;
+      } catch (err) {
+        console.error(`🤦🏼‍♂️ Something went wrong: ${err}`);
+        renderError(`🤦🏼‍♂️ Something went wrong: ${err.message}`);
+
+        // Reject promise returned from async function
+        throw err;
+      }
+    };
+
+    console.log('1: Will get location');
+    // const location = whereAmI();
+    // console.log(location);
+
+    // Mix of old/new way of handling promises (not nice 😅)
+    // whereAmI()
+    //   .then(location => console.log(`2: ${location}`))
+    //   .catch(err => console.error(`2: ${err.message}`))
+    //   .finally(() => console.log('3: Finished getting location'));
+
+    (async function () {
+      try {
+        const location = await whereAmI();
+        console.log(`2: ${location}`);
+      } catch (err) {
+        console.error(`2: ${err.message}`);
+      }
+      console.log('3: Finished getting location');
+    })();
+  };
+
+consumingPromisesWithAsyncAwaitAndErrorHandlingWithTryCatch();
