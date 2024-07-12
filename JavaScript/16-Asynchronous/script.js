@@ -35,6 +35,14 @@ const renderError = function (message) {
   countriesContainer.style.opacity = 1;
 };
 
+const getJSON = function (url, errorMsg = 'Something went wrong') {
+  return fetch(url).then(res => {
+    if (!res.ok) throw new Error(`${errorMsg} (${res.status})`);
+
+    return res.json();
+  });
+};
+
 ///////////////////////////////////////
 const url = 'https://countries-api-836d.onrender.com/countries';
 
@@ -308,4 +316,66 @@ const consumingPromisesWithAsyncAwaitAndErrorHandlingWithTryCatch =
     })();
   };
 
-consumingPromisesWithAsyncAwaitAndErrorHandlingWithTryCatch();
+const runningPromisesInParallel = function () {
+  const get3Countries = async function (country1, country2, country3) {
+    try {
+      // Since there is no dependencies between the promises, we don't need them to run after each other synchronously
+      // const [data1] = await getJSON(`${countriesApiUrl}/name/${country1}`);
+      // const [data2] = await getJSON(`${countriesApiUrl}/name/${country2}`);
+      // const [data3] = await getJSON(`${countriesApiUrl}/name/${country3}`);
+
+      // 1 promise rejects => all rejects
+      const [[data1], [data2], [data3]] = await Promise.all([
+        getJSON(`${countriesApiUrl}/name/${country1}`),
+        getJSON(`${countriesApiUrl}/name/${country2}`),
+        getJSON(`${countriesApiUrl}/name/${country3}`),
+      ]);
+
+      console.log([data1.capital, data2.capital, data3.capital]);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  get3Countries('portugal', 'netherlands', 'usa');
+};
+
+const otherPromiseCombinators = function () {
+  // Promise.race
+  // Returns the fastest fulfilled or rejected promise
+  (async function () {
+    const [res] = await Promise.race([
+      getJSON(`${countriesApiUrl}/name/panama`),
+      getJSON(`${countriesApiUrl}/name/morocco`),
+      getJSON(`${countriesApiUrl}/name/japan`),
+    ]);
+    console.log(res);
+  })();
+
+  const timeout = function (sec) {
+    return new Promise(function (_, reject) {
+      setTimeout(function () {
+        reject(new Error('Request took too long!'));
+      }, sec * 1000);
+    });
+  };
+
+  Promise.race([getJSON(`${countriesApiUrl}/name/germany`), timeout(0.23)])
+    .then(res => console.log(res[0]))
+    .catch(err => console.error(err));
+
+  // Promise.allSettled
+  // Same as Promise.all but it does not short circuit (1 promise rejects != all rejects)
+  Promise.allSettled([
+    Promise.resolve('Nice! 😁'),
+    Promise.reject('Bahh 😤'),
+  ]).then(res => console.log(res));
+
+  // Promise.any [ES2021]
+  Promise.allSettled([
+    Promise.resolve('Nice! 😁'),
+    Promise.reject('Bahh 😤'),
+  ]).then(res => console.log(res));
+};
+
+otherPromiseCombinators();
