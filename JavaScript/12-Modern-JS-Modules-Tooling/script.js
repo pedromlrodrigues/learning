@@ -53,3 +53,34 @@ const getLastPost = async function () {
 
 const lastPost = await getLastPost();
 console.log(lastPost);
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// The Module Pattern (Old way of encapsulation)
+const ShoppingCart2 = (function () {
+  const cart = [];
+  const shippingCost = 115;
+  const totalPrice = 251;
+  const totalQuantity = 312;
+
+  const addToCart = function (product, quantity) {
+    cart.push({ product, quantity });
+    console.log(`${quantity} ${product} added to cart`);
+  };
+
+  const orderStock = function (product, quantity) {
+    console.log(`${quantity} ${product} ordered from supplier`);
+  };
+
+  return {
+    addToCart,
+    cart,
+    totalPrice,
+    totalQuantity,
+  };
+})();
+
+ShoppingCart2.addToCart('Vanillas', 3);
+ShoppingCart2.addToCart('Pancakes', 10);
+console.log(ShoppingCart2);
+console.log(ShoppingCart2.shippingCost); // undefined
+console.log(ShoppingCart2.orderStock); // undefined
