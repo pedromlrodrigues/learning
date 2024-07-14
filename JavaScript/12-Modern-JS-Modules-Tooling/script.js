@@ -25,3 +25,31 @@ add('rice', 2);
 add('pasta', 12);
 
 console.log(cart);
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+// Top-Level await (ES2022)
+// console.log('Start fetching');
+// const res = await fetch('https://jsonplaceholder.typicode.com/posts');
+// const data = await res.json();
+// console.log(data);
+// console.log('Something');
+
+const getLastPost = async function () {
+  const res = await fetch('https://jsonplaceholder.typicode.com/posts');
+  const data = await res.json();
+  console.log(data);
+
+  //   return {
+  //     title: data.at(data.length - 1).title,
+  //     text: data.at(data.length - 1).body,
+  //   };
+
+  // data.length - 1 == -1 in this case
+  return {
+    title: data.at(-1).title,
+    text: data.at(-1).body,
+  };
+};
+
+const lastPost = await getLastPost();
+console.log(lastPost);
