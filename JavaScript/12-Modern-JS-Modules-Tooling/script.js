@@ -17,12 +17,12 @@
 // ///////////////////////////////////////////////////////////////////////////////////////////////
 // // Import default exports (name of the exported default is defined in the import statement)
 // // Named exports should not be mixed with default exports
-// import add from './shoppingCart.js';
-// import { cart } from './shoppingCart.js';
+import add from './shoppingCart.js';
+import { cart } from './shoppingCart.js';
 
-// add('beef', 7);
-// add('rice', 2);
-// add('pasta', 12);
+add('beef', 7);
+add('rice', 2);
+add('pasta', 12);
 
 // console.log(cart);
 
@@ -85,6 +85,7 @@
 // console.log(ShoppingCart2.shippingCost); // undefined
 // console.log(ShoppingCart2.orderStock); // undefined
 
+// ///////////////////////////////////////////////////////////////////////////////////////////////
 // Only available in NodeJS (CommonJS Module => requires module bundler in order to use)
 // // Export
 // export.addToCart = function (product, quantity) {
@@ -95,7 +96,10 @@
 // // Import
 // const {addToCart} = require('./shoppingCart.js');
 
+// ///////////////////////////////////////////////////////////////////////////////////////////////
+// // Introduction to NPM
 import cloneDeep from './node_modules/lodash-es/cloneDeep.js';
+// import cloneDeep from 'lodash-es';
 
 const state = {
   cart: [
@@ -113,3 +117,11 @@ const stateDeepClone = cloneDeep(state); // creates a totally new object without
 state.user.loggedIn = false;
 console.log(stateClone);
 console.log(stateDeepClone);
+
+// Bundling is an optimization technique that reduces the number of server requests needed by "merging" every JavaScript file into a big one.
+// It also reduces file sizes by compacting the code (remove enters and white spaces).
+
+// Specific for parcel (updates the page without refreshing after detecting changes )
+// if (module.hot) {
+//   module.hot.accept();
+// }
