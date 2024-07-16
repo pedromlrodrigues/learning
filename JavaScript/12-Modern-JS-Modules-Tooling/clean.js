@@ -1,4 +1,6 @@
-const movements = [
+'use strict';
+
+const movements = Object.freeze([
   { value: 250, description: 'Sold old TV 📺', user: 'pedro' },
   { value: -45, description: 'Groceries 🥑', user: 'pedro' },
   { value: 3500, description: 'Monthly salary 👩‍💻', user: 'pedro' },
@@ -7,15 +9,25 @@ const movements = [
   { value: -20, description: 'Candy 🍭', user: 'matilda' },
   { value: -125, description: 'Toys 🚂', user: 'matilda' },
   { value: -1800, description: 'New Laptop 💻', user: 'pedro' },
-];
+]);
 
-const spendingLimits = {
+const spendingLimits = Object.freeze({
   pedro: 1500,
-  matilda: 100,
-};
+  matilda: 110,
+});
 
-const addExpense = function (value, description, user = 'pedro') {
-  user = user.toLowerCase();
+// spendingLimits.jay = 200;
+console.log(spendingLimits);
+
+// Pure function - produces the same output for the same input every time it is called
+const addExpense = function (
+  state,
+  limits,
+  value,
+  description,
+  user = 'pedro'
+) {
+  const cleanUser = user.toLowerCase();
 
   // let lim;
   // if (spendingLimits[user]) {
@@ -24,18 +36,30 @@ const addExpense = function (value, description, user = 'pedro') {
   //   lim = 0;
   // }
 
-  const limit = spendingLimits[user] ? spendingLimits[user] : 0;
+  const limit = limits[user] ? limits[user] : 0;
 
-  if (value <= limit) {
-    movements.push({ value: -value, description, user });
-  }
+  return value <= limit
+    ? [...state, { value: -value, description, user: cleanUser }]
+    : state;
 };
 
-addExpense(10, 'Pizza 🍕');
-addExpense(100, 'Going to movies 🍿', 'Matilda');
-addExpense(200, 'Stuff', 'Jay');
+const newMovements1 = addExpense(movements, spendingLimits, 10, 'Pizza 🍕');
+const newMovements2 = addExpense(
+  newMovements1,
+  spendingLimits,
+  100,
+  'Going to movies 🍿',
+  'matilda'
+);
+const newMovements3 = addExpense(
+  newMovements2,
+  spendingLimits,
+  200,
+  'Stuff',
+  'Jay'
+);
 
-const checkExpenses = function () {
+const checkExpenses = function (state, limits) {
   // for (const el of movements) {
   //   let lim;
   //   if (spendingLimits[el.user]) {
@@ -49,15 +73,21 @@ const checkExpenses = function () {
   //   }
   // }
 
-  movements.forEach(mov => {
-    if (spendingLimits?.[mov.user] < -mov.value) mov.flag = 'limit';
-  });
+  // state.forEach(mov => {
+  //   if (limits?.[mov.user] < -mov.value) mov.flag = 'limit';
+  // });
+
+  return state.map(mov =>
+    limits?.[mov.user] < -mov.value ? { ...mov, flag: 'limit' } : mov
+  );
 };
 
-checkExpenses();
+const newMovements4 = checkExpenses(newMovements3, spendingLimits);
+console.log(newMovements4);
 
-const logBigExpenses = function (limit) {
-  const bigExpenses = movements.reduce(
+// Impure because of the console.logs (side effect)
+const logBigExpenses = function (state, limit) {
+  const bigExpenses = state.reduce(
     (output, cur) =>
       output + (cur.value <= -limit ? `${cur.description.slice(-2)} / ` : ''),
     ''
@@ -72,5 +102,4 @@ const logBigExpenses = function (limit) {
   // console.log(output);
 };
 
-console.log(movements);
-logBigExpenses(1000);
+logBigExpenses(movements, 1000);
