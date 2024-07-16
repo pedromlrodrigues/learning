@@ -26,6 +26,14 @@ This repository contains the scripts with the lectures and exercises that I've d
 ---
 
 ## 01 - Developer Skills
+This section focuses on configuring **Visual Studio Code (VS Code)** and integrating **Prettier** for consistent code formatting. It includes the installation of **Node.js** and setting up a comprehensive development environment to optimize workflow.
+
+The section also emphasizes refining a problem-solving mindset, crucial for efficiently tackling complex coding challenges. It covers the effective use of online resources such as **Google**, **StackOverflow**, and the **Mozilla Developer Network (MDN)** to find solutions and deepen understanding of documentation.
+
+Additionally, it focuses on advanced skills in identifying and fixing code errors, as well as mastering debugging techniques using the console and breakpoints. These capabilities facilitate systematic diagnosis and resolution of issues, further reinforcing a solid foundation in development.
+
+**Keywords:** VS Code, Prettier, Node.js, MDN, StackOverflow, Debugging, Console, Breakpoints, problem-solving mindset
+
 ## 02 - DOM and Events Fundamentals
 ## 03 - Behind the Scenes
 ## 04 - Data Structures Operators
