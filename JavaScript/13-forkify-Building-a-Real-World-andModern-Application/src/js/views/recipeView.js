@@ -1,5 +1,6 @@
 // import icons from '../img/icons.svg'; // Parcel 1
 import icons from 'url:../../img/icons.svg'; // Parcel 2
+import { Fraction } from 'fractional';
 
 export class RecipeView {
   #parentElement = document.querySelector('.recipe');
@@ -87,22 +88,7 @@ export class RecipeView {
       <div class="recipe__ingredients">
         <h2 class="heading--2">Recipe ingredients</h2>
         <ul class="recipe__ingredient-list">
-        ${this.#data.ingredients
-          .map(ingredient => {
-            return `<li class="recipe__ingredient">
-            <svg class="recipe__icon">
-              <use href="${icons}#icon-check"></use>
-            </svg>
-            <div class="recipe__quantity">${
-              ingredient.quantity ? ingredient.quantity : ''
-            }</div>
-            <div class="recipe__description">
-              <span class="recipe__unit">${ingredient.unit}</span>
-              ${ingredient.description}
-            </div>
-          </li>`;
-          })
-          .join('')}
+        ${this.#data.ingredients.map(this.#generateHtmlIngredient).join('')}
         </ul>
       </div>
 
@@ -127,6 +113,21 @@ export class RecipeView {
         </a>
       </div>
     `;
+  }
+
+  #generateHtmlIngredient(ingredient) {
+    return `<li class="recipe__ingredient">
+            <svg class="recipe__icon">
+              <use href="${icons}#icon-check"></use>
+            </svg>
+            <div class="recipe__quantity">${
+              ingredient.quantity ? new Fraction(ingredient.quantity) : ''
+            }</div>
+            <div class="recipe__description">
+              <span class="recipe__unit">${ingredient.unit}</span>
+              ${ingredient.description}
+            </div>
+          </li>`;
   }
 }
 
