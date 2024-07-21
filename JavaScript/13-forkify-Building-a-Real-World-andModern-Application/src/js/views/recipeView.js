@@ -25,6 +25,12 @@ export class RecipeView {
     this.#parentElement.insertAdjacentHTML('afterbegin', html);
   };
 
+  addHandlerRender(handler) {
+    ['hashchange', 'load'].forEach(event =>
+      window.addEventListener(event, handler)
+    );
+  }
+
   #clear() {
     this.#parentElement.innerHTML = '';
   }
