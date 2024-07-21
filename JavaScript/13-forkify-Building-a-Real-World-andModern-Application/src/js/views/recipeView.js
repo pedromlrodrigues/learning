@@ -2,7 +2,7 @@
 import icons from 'url:../../img/icons.svg'; // Parcel 2
 import { Fraction } from 'fractional';
 
-export class RecipeView {
+class RecipeView {
   #parentElement = document.querySelector('.recipe');
   #data;
   #successMessage = '';

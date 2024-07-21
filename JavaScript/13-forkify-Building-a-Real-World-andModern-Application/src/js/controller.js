@@ -2,6 +2,7 @@ import 'core-js/stable'; // Polyfilling everything except async/await
 import 'regenerator-runtime/runtime'; // Polyfilling async/await
 import * as model from './model';
 import recipeView from './views/recipeView';
+import searchView from './views/searchView';
 
 ///////////////////////////////////////
 
@@ -22,7 +23,16 @@ const controlRecipes = async function () {
   }
 };
 
+const controlSearchResults = async function () {
+  try {
+    await model.loadSearchResults(searchView.getQuery());
+  } catch (err) {
+    throw err;
+  }
+};
+
 const init = function () {
   recipeView.addHandlerRender(controlRecipes);
+  searchView.addHandlerSearch(controlSearchResults);
 };
 init();
