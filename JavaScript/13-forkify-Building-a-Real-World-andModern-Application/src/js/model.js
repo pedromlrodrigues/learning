@@ -43,7 +43,6 @@ export const loadSearchResults = async function (query) {
         image: recipe.image_url,
       };
     });
-    console.log(state.search);
   } catch (err) {
     throw err;
   }

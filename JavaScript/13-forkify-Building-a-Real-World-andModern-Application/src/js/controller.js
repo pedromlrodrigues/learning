@@ -1,9 +1,14 @@
 import 'core-js/stable'; // Polyfilling everything except async/await
 import 'regenerator-runtime/runtime'; // Polyfilling async/await
+
 import * as model from './model';
 import recipeView from './views/recipeView';
 import searchView from './views/searchView';
+import recipesListView from './views/recipesListView';
 
+if (module.hot) {
+  module.hot.accept();
+}
 ///////////////////////////////////////
 
 const controlRecipes = async function () {
@@ -25,7 +30,13 @@ const controlRecipes = async function () {
 
 const controlSearchResults = async function () {
   try {
+    recipesListView.renderSpinner();
+
+    // 1) Load search results
     await model.loadSearchResults(searchView.getQuery());
+
+    // 2) Render search results
+    recipesListView.render(model.state.search.results);
   } catch (err) {
     throw err;
   }
