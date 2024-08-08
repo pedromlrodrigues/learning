@@ -4,10 +4,10 @@ import previewView from './previewView';
 // import icons from '../img/icons.svg'; // Parcel 1
 import icons from 'url:../../img/icons.svg'; // Parcel 2
 
-class RecipesListView extends View {
-  _parentElement = document.querySelector('.results');
+class BookmarksView extends View {
+  _parentElement = document.querySelector('.bookmarks__list');
   _successMessage = '';
-  _errorMessage = '🫠 No recipes found for your query! Please try again! 🫠';
+  _errorMessage = '🫠 No bookmarks yet! Find a nice recipe and bookmark it! 🫠';
 
   _generateHtml() {
     return this._data
@@ -16,4 +16,4 @@ class RecipesListView extends View {
   }
 }
 
-export default new RecipesListView();
+export default new BookmarksView();
