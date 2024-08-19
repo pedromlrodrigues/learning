@@ -9,7 +9,7 @@ class RecipeView extends View {
   _successMessage = '';
   _errorMessage = 'We could not find that recipe. Please try another one!';
 
-  addHandlerRender(handler) {
+  addHandlerRenderRecipe(handler) {
     ['hashchange', 'load'].forEach(event =>
       window.addEventListener(event, handler)
     );

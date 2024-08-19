@@ -75,11 +75,20 @@ const controlAddOrRemoveBookmark = function () {
   bookmarksView.render(model.state.bookmarks);
 };
 
+const controlLoadBookmarks = function () {
+  // 1) Load bookmarks from local storage
+  model.loadBookmarks();
+
+  // 2) Render loaded bookmarks
+  bookmarksView.render(model.state.bookmarks);
+};
+
 const init = function () {
-  recipeView.addHandlerRender(controlRecipes);
+  recipeView.addHandlerRenderRecipe(controlRecipes);
   recipeView.addHandlerServings(controlServings);
   recipeView.addHandlerAddBookmark(controlAddOrRemoveBookmark);
   searchView.addHandlerSearch(controlSearchResults);
   paginationView.addHandlerPaginationClick(controlPagination);
+  bookmarksView.addHandlerRenderBookmarks(controlLoadBookmarks);
 };
 init();
