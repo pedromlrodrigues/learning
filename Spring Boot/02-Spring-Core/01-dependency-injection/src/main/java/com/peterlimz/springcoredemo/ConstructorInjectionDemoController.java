@@ -2,10 +2,12 @@ package com.peterlimz.springcoredemo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class DemoController {
+@RequestMapping("constructor-injection")
+public class ConstructorInjectionDemoController {
 
     private final Coach coach;
 
@@ -14,11 +16,11 @@ public class DemoController {
      *  if a class has only one constructor, Spring will automatically use that
      *  constructor for dependency injection, even if the @Autowired annotation is not present.
      *  This is called implicit constructor injection.
-     *  Since your DemoController class has only one constructor,
+     *  Since your ConstructorInjectionDemoController class has only one constructor,
      *  Spring automatically injects the Coach dependency without requiring the @Autowired annotation.
      * */
     @Autowired
-    DemoController(Coach coach) {
+    ConstructorInjectionDemoController(Coach coach) {
         this.coach = coach;
     }
 
