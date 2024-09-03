@@ -36,13 +36,13 @@ public class HibernateJpaCrudDemoApplication {
         // 3) Fetch the student by id and display the student data
         student = studentDAO.findById(id);
         System.out.println("There he is, my favourite student! " + student);
-
     }
 
     private void createMultipleStudents(StudentDAO studentDAO) {
         studentDAO.save(new Student("John", "Doe", "helloworld@gmail.com"));
         studentDAO.save(new Student("Peter", "Limz", "peterzlim@gmail.com"));
         studentDAO.save(new Student("Jukes", "Port", "jukestpor@gmail.com"));
+
     }
 
     private void createStudent(StudentDAO studentDAO) {
