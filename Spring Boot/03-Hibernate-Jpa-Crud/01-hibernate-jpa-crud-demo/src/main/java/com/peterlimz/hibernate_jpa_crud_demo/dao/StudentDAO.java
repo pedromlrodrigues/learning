@@ -5,4 +5,6 @@ import com.peterlimz.hibernate_jpa_crud_demo.entity.Student;
 public interface StudentDAO {
 
     void save(Student student);
+
+    Student findById(int id);
 }

@@ -7,6 +7,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import static java.lang.String.format;
+
 @SpringBootApplication
 public class HibernateJpaCrudDemoApplication {
 
@@ -18,16 +20,29 @@ public class HibernateJpaCrudDemoApplication {
     public CommandLineRunner commandLineRunner(StudentDAO studentDAO) {
         return runner -> {
             // createStudent(studentDAO);
-
-            createMultipleStudents(studentDAO);
+            // createMultipleStudents(studentDAO);
+            readStudent(studentDAO);
         };
+    }
+
+    private void readStudent(StudentDAO studentDAO) {
+        // 1) Create student and save it
+        Student student = new Student("Peter", "Limz", "peterzlim@gmail.com");
+        studentDAO.save(student);
+
+        // 2) Get the created student id
+        int id = student.getId();
+
+        // 3) Fetch the student by id and display the student data
+        student = studentDAO.findById(id);
+        System.out.println("There he is, my favourite student! " + student);
+
     }
 
     private void createMultipleStudents(StudentDAO studentDAO) {
         studentDAO.save(new Student("John", "Doe", "helloworld@gmail.com"));
         studentDAO.save(new Student("Peter", "Limz", "peterzlim@gmail.com"));
         studentDAO.save(new Student("Jukes", "Port", "jukestpor@gmail.com"));
-
     }
 
     private void createStudent(StudentDAO studentDAO) {
