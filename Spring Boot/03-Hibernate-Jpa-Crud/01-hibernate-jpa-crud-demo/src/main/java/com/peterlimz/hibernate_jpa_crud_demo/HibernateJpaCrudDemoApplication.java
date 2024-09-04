@@ -7,7 +7,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
-import static java.lang.String.format;
+import java.util.List;
 
 @SpringBootApplication
 public class HibernateJpaCrudDemoApplication {
@@ -21,8 +21,26 @@ public class HibernateJpaCrudDemoApplication {
         return runner -> {
             // createStudent(studentDAO);
             // createMultipleStudents(studentDAO);
-            readStudent(studentDAO);
+            // readStudent(studentDAO);
+            // queryForStudents(studentDAO);
+            queryForStudentByLastName(studentDAO, "Limz");
+            queryForStudentByLastName(studentDAO, "Doe");
+
         };
+    }
+
+    private void queryForStudentByLastName(StudentDAO studentDAO, String lastName) {
+        List<Student> students = studentDAO.findStudentByLastName(lastName);
+        for (Student student : students) {
+            System.out.println(student);
+        }
+    }
+
+    private void queryForStudents(StudentDAO studentDAO) {
+        List<Student> students = studentDAO.findAll();
+        for (Student student : students) {
+            System.out.println(student);
+        }
     }
 
     private void readStudent(StudentDAO studentDAO) {
