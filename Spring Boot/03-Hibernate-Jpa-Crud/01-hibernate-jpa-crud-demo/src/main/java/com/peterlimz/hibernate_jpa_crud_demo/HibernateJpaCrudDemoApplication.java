@@ -23,10 +23,21 @@ public class HibernateJpaCrudDemoApplication {
             // createMultipleStudents(studentDAO);
             // readStudent(studentDAO);
             // queryForStudents(studentDAO);
-            queryForStudentByLastName(studentDAO, "Limz");
-            queryForStudentByLastName(studentDAO, "Doe");
+            // queryForStudentByLastName(studentDAO, "Limz");
+            // queryForStudentByLastName(studentDAO, "Doe");
+            updateStudent(studentDAO);
 
         };
+    }
+
+    private void updateStudent(StudentDAO studentDAO) {
+        int studentId = 1;
+        Student student = studentDAO.findById(studentId);
+        student.setFirstName("Rolls");
+
+        studentDAO.updateStudent(student);
+
+        System.out.println("Updated Student:" + student);
     }
 
     private void queryForStudentByLastName(StudentDAO studentDAO, String lastName) {
