@@ -25,9 +25,13 @@ public class HibernateJpaCrudDemoApplication {
             // queryForStudents(studentDAO);
             // queryForStudentByLastName(studentDAO, "Limz");
             // queryForStudentByLastName(studentDAO, "Doe");
-            updateStudent(studentDAO);
-
+            // updateStudent(studentDAO);
+            deleteStudent(studentDAO);
         };
+    }
+
+    private void deleteStudent(StudentDAO studentDAO) {
+        studentDAO.deleteStudent(1);
     }
 
     private void updateStudent(StudentDAO studentDAO) {
