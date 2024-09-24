@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.peterlimz</groupId>
-	<artifactId>rest-crud-apis-demo</artifactId>
+	<artifactId>rest-crud-apis-overview</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>rest-crud-apis-demo</name>
+	<name>rest-crud-apis-overview</name>
 	<description>Demo project for Spring Boot</description>
 	<url/>
 	<licenses>

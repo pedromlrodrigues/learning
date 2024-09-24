@@ -1,4 +1,4 @@
-package com.peterlimz.restcrudapisdemo;
+package com.peterlimz.restcrudapisoverview;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

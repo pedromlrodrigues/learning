@@ -1,4 +1,4 @@
-package com.peterlimz.restcrudapisdemo.entity;
+package com.peterlimz.restcrudapisoverview.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

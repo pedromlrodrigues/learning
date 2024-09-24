@@ -1,4 +1,4 @@
-package com.peterlimz.restcrudapisdemo.rest;
+package com.peterlimz.restcrudapisoverview.rest;
 
 
 public class StudentNotFoundException extends RuntimeException {

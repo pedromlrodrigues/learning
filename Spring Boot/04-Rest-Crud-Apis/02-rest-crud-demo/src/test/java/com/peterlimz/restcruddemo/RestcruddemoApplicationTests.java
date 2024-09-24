@@ -1,10 +1,10 @@
-package com.peterlimz.restcrudapisdemo;
+package com.peterlimz.restcruddemo;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class RestCrudApisDemoApplicationTests {
+class RestcruddemoApplicationTests {
 
 	@Test
 	void contextLoads() {

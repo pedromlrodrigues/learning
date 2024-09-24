@@ -1,4 +1,4 @@
-package com.peterlimz.restcrudapisdemo.rest;
+package com.peterlimz.restcrudapisoverview.rest;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
