@@ -1,0 +1,247 @@
+_type: export
+__export_format: 4
+__export_date: 2024-09-25T22:40:30.150Z
+__export_source: insomnia.desktop.app:v10.0.0
+resources:
+  - _id: req_8f539772bc754b4c9cc116522272e0a4
+    parentId: fld_5ea0a78abff247ad861a2f6898921a54
+    modified: 1727303351497
+    created: 1727188663490
+    url: http://localhost:8080/api/employees
+    name: Find All Employees
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers:
+      - name: User-Agent
+        value: insomnia/10.0.0
+    authentication: {}
+    metaSortKey: -1727299896188
+    isPrivate: false
+    pathParameters: []
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: fld_5ea0a78abff247ad861a2f6898921a54
+    parentId: wrk_e096d7a639f3426182f724d668a171f0
+    modified: 1727299882196
+    created: 1727299882196
+    name: REST CRUD APIs
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1727299882196
+    _type: request_group
+  - _id: wrk_e096d7a639f3426182f724d668a171f0
+    parentId: null
+    modified: 1727188713709
+    created: 1727188656448
+    name: Spring Boot Course by Chad Darby
+    description: ""
+    scope: collection
+    _type: workspace
+  - _id: req_822b9d1b345f4db087b482941081a581
+    parentId: fld_5ea0a78abff247ad861a2f6898921a54
+    modified: 1727303773672
+    created: 1727303360856
+    url: http://localhost:8080/api/members?page=1&size=1
+    name: Find All Employees (Members) with Pagination
+    description: >-
+      @RepositoryRestResource - used to change the exposed resource endpoint's
+      name from employees (default behavior from Spring Data REST, entity is
+      "Employee" which translates the resource name to "employees") to members
+      (custom name set);
+
+
+      Default pagination is set to 3 but it can be configured through the URL as shown.
+    method: GET
+    body: {}
+    parameters: []
+    headers:
+      - name: User-Agent
+        value: insomnia/10.0.0
+    authentication: {}
+    metaSortKey: -1727299896163
+    isPrivate: false
+    pathParameters: []
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_35aae49f82104462ad808a2c27893a7d
+    parentId: fld_5ea0a78abff247ad861a2f6898921a54
+    modified: 1727303806076
+    created: 1727303756268
+    url: http://localhost:8080/api/members?sort=lastName,desc
+    name: Find All Employees (Members) with Sorting
+    description: "@RepositoryRestResource - used to change the exposed resource
+      endpoint's name from employees (default behavior from Spring Data REST,
+      entity is \"Employee\" which translates the resource name to
+      \"employees\") to members (custom name set);"
+    method: GET
+    body: {}
+    parameters: []
+    headers:
+      - name: User-Agent
+        value: insomnia/10.0.0
+    authentication: {}
+    metaSortKey: -1727299896150.5
+    isPrivate: false
+    pathParameters: []
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_e501e82c1de54cff94a8094e09791820
+    parentId: fld_5ea0a78abff247ad861a2f6898921a54
+    modified: 1727299936984
+    created: 1727299931618
+    url: http://localhost:8080/api/employees/2
+    name: Find Employee by Id
+    description: ""
+    method: GET
+    body: {}
+    parameters: []
+    headers:
+      - name: User-Agent
+        value: insomnia/10.0.0
+    authentication: {}
+    metaSortKey: -1727299896138
+    isPrivate: false
+    pathParameters: []
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_91bbb242865d4be8aa4a909adbafdb43
+    parentId: fld_5ea0a78abff247ad861a2f6898921a54
+    modified: 1727299994446
+    created: 1727299951379
+    url: http://localhost:8080/api/employees
+    name: Create Employee
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: |-
+        	{
+        		"firstName": "Peter",
+        		"lastName": "Limz",
+        		"email": "perterlimz@gforce.com"
+        	}
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/10.0.0
+        id: pair_f79bed4442424626989c15237d328d4a
+        type: text
+        multiline: false
+    authentication: {}
+    metaSortKey: -1727299896088
+    isPrivate: false
+    pathParameters: []
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_7b0c5028025d4bdda6807f77ff6726e7
+    parentId: fld_5ea0a78abff247ad861a2f6898921a54
+    modified: 1727301474449
+    created: 1727300025128
+    url: http://localhost:8080/api/employees
+    name: Update Employee
+    description: ""
+    method: PUT
+    body:
+      mimeType: application/json
+      text: |-
+        	{
+        		"id": 6,
+        		"firstName": "Peter",
+        		"lastName": "Rodriguez",
+        		"email": "perterlimz@gforce.com"
+        	}
+    parameters: []
+    headers:
+      - name: Content-Type
+        value: application/json
+      - name: User-Agent
+        value: insomnia/10.0.0
+        id: pair_f79bed4442424626989c15237d328d4a
+        type: text
+        multiline: false
+    authentication: {}
+    metaSortKey: -1727299896038
+    isPrivate: false
+    pathParameters: []
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_488868e683024b7eb9956ac5df429b4d
+    parentId: fld_5ea0a78abff247ad861a2f6898921a54
+    modified: 1727303334592
+    created: 1727300100550
+    url: http://localhost:8080/api/employees/6
+    name: Delete Employee by Id
+    description: ""
+    method: DELETE
+    body: {}
+    parameters: []
+    headers:
+      - name: User-Agent
+        value: insomnia/10.0.0
+        id: pair_f79bed4442424626989c15237d328d4a
+        type: text
+        multiline: false
+    authentication: {}
+    metaSortKey: -1727299895988
+    isPrivate: false
+    pathParameters: []
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: env_fa375b4ea0bf664b6cf0569c8c2d72578a270a0b
+    parentId: wrk_e096d7a639f3426182f724d668a171f0
+    modified: 1727188656449
+    created: 1727188656449
+    name: Base Environment
+    data: {}
+    dataPropertyOrder: null
+    color: null
+    isPrivate: false
+    metaSortKey: 1727188656449
+    _type: environment
+  - _id: jar_fa375b4ea0bf664b6cf0569c8c2d72578a270a0b
+    parentId: wrk_e096d7a639f3426182f724d668a171f0
+    modified: 1727188656449
+    created: 1727188656449
+    name: Default Jar
+    cookies: []
+    _type: cookie_jar
