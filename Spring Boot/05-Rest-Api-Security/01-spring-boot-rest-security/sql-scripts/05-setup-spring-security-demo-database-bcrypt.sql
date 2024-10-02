@@ -1,56 +1,39 @@
-USE `employee_directory`;
+-- Drop the tables if they already exist
+DROP TABLE IF EXISTS employee_directory.authorities;
+DROP TABLE IF EXISTS employee_directory.users;
 
-DROP TABLE IF EXISTS `authorities`;
-DROP TABLE IF EXISTS `users`;
-
---
 -- Table structure for table `users`
---
+CREATE TABLE employee_directory.users (
+  username VARCHAR(50) NOT NULL,
+  password CHAR(68) NOT NULL,  -- BCrypt password requires 60-68 characters
+  enabled BOOLEAN NOT NULL,
+  PRIMARY KEY (username)
+);
 
-CREATE TABLE `users` (
-  `username` varchar(50) NOT NULL,
-  `password` char(68) NOT NULL,
-  `enabled` tinyint NOT NULL,
-  PRIMARY KEY (`username`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
 -- Inserting data for table `users`
---
--- NOTE: The passwords are encrypted using BCrypt
---
--- A generation tool is avail at: https://www.luv2code.com/generate-bcrypt-password
---
+-- The passwords are encrypted using BCrypt (as indicated by the {bcrypt} prefix)
 -- Default passwords here are: fun123
---
 
-INSERT INTO `users` 
+INSERT INTO employee_directory.users (username, password, enabled) 
 VALUES 
-('john','{bcrypt}$2a$10$qeS0HEh7urweMojsnwNAR.vcXJeXR1UcMRZ2WcGQl9YeuspUdgF.q',1),
-('mary','{bcrypt}$2a$10$qeS0HEh7urweMojsnwNAR.vcXJeXR1UcMRZ2WcGQl9YeuspUdgF.q',1),
-('susan','{bcrypt}$2a$10$qeS0HEh7urweMojsnwNAR.vcXJeXR1UcMRZ2WcGQl9YeuspUdgF.q',1);
+('john', '{bcrypt}$2a$10$qeS0HEh7urweMojsnwNAR.vcXJeXR1UcMRZ2WcGQl9YeuspUdgF.q', TRUE),
+('mary', '{bcrypt}$2a$10$qeS0HEh7urweMojsnwNAR.vcXJeXR1UcMRZ2WcGQl9YeuspUdgF.q', TRUE),
+('susan', '{bcrypt}$2a$10$qeS0HEh7urweMojsnwNAR.vcXJeXR1UcMRZ2WcGQl9YeuspUdgF.q', TRUE);
 
-
---
 -- Table structure for table `authorities`
---
+CREATE TABLE employee_directory.authorities (
+  username VARCHAR(50) NOT NULL,
+  authority VARCHAR(50) NOT NULL,
+  CONSTRAINT authorities_unique UNIQUE (username, authority),
+  CONSTRAINT fk_authorities_username FOREIGN KEY (username) REFERENCES users (username)
+);
 
-CREATE TABLE `authorities` (
-  `username` varchar(50) NOT NULL,
-  `authority` varchar(50) NOT NULL,
-  UNIQUE KEY `authorities4_idx_1` (`username`,`authority`),
-  CONSTRAINT `authorities4_ibfk_1` FOREIGN KEY (`username`) REFERENCES `users` (`username`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
 -- Inserting data for table `authorities`
---
-
-INSERT INTO `authorities` 
+INSERT INTO employee_directory.authorities (username, authority) 
 VALUES 
-('john','ROLE_EMPLOYEE'),
-('mary','ROLE_EMPLOYEE'),
-('mary','ROLE_MANAGER'),
-('susan','ROLE_EMPLOYEE'),
-('susan','ROLE_MANAGER'),
-('susan','ROLE_ADMIN');
+('john', 'ROLE_EMPLOYEE'),
+('mary', 'ROLE_EMPLOYEE'),
+('mary', 'ROLE_MANAGER'),
+('susan', 'ROLE_EMPLOYEE'),
+('susan', 'ROLE_MANAGER'),
+('susan', 'ROLE_ADMIN');

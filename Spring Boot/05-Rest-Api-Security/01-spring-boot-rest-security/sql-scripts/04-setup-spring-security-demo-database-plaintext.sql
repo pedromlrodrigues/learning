@@ -1,52 +1,36 @@
-USE `employee_directory`;
+-- Drop the tables if they already exist
+DROP TABLE IF EXISTS employee_directory.authorities;
+DROP TABLE IF EXISTS employee_directory.users;
 
-DROP TABLE IF EXISTS `authorities`;
-DROP TABLE IF EXISTS `users`;
-
---
 -- Table structure for table `users`
---
+CREATE TABLE employee_directory.users (
+  username VARCHAR(50) NOT NULL,
+  password VARCHAR(50) NOT NULL,
+  enabled BOOLEAN NOT NULL,
+  PRIMARY KEY (username)
+);
 
-CREATE TABLE `users` (
-  `username` varchar(50) NOT NULL,
-  `password` varchar(50) NOT NULL,
-  `enabled` tinyint NOT NULL,
-  PRIMARY KEY (`username`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
 -- Inserting data for table `users`
---
-
-INSERT INTO `users` 
+INSERT INTO employee_directory.users (username, password, enabled) 
 VALUES 
-('john','{noop}test123',1),
-('mary','{noop}test123',1),
-('susan','{noop}test123',1);
+('john', '{noop}test123', TRUE),
+('mary', '{noop}test123', TRUE),
+('susan', '{noop}test123', TRUE);
 
-
---
 -- Table structure for table `authorities`
---
+CREATE TABLE employee_directory.authorities (
+  username VARCHAR(50) NOT NULL,
+  authority VARCHAR(50) NOT NULL,
+  CONSTRAINT authorities_unique UNIQUE (username, authority),
+  CONSTRAINT fk_authorities_username FOREIGN KEY (username) REFERENCES users (username)
+);
 
-CREATE TABLE `authorities` (
-  `username` varchar(50) NOT NULL,
-  `authority` varchar(50) NOT NULL,
-  UNIQUE KEY `authorities_idx_1` (`username`,`authority`),
-  CONSTRAINT `authorities_ibfk_1` FOREIGN KEY (`username`) REFERENCES `users` (`username`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
 -- Inserting data for table `authorities`
---
-
-INSERT INTO `authorities` 
+INSERT INTO employee_directory.authorities (username, authority) 
 VALUES 
-('john','ROLE_EMPLOYEE'),
-('mary','ROLE_EMPLOYEE'),
-('mary','ROLE_MANAGER'),
-('susan','ROLE_EMPLOYEE'),
-('susan','ROLE_MANAGER'),
-('susan','ROLE_ADMIN');
-
-
+('john', 'ROLE_EMPLOYEE'),
+('mary', 'ROLE_EMPLOYEE'),
+('mary', 'ROLE_MANAGER'),
+('susan', 'ROLE_EMPLOYEE'),
+('susan', 'ROLE_MANAGER'),
+('susan', 'ROLE_ADMIN');
