@@ -10,6 +10,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @SpringBootApplication
 public class CrudDemoApplication {
 
@@ -26,12 +28,21 @@ public class CrudDemoApplication {
             // findInstructorDetailById(appDAO);
             // deleteInstructorDetailById(appDAO);
             // createInstructorWithCourses(appDAO);
-            findInstructorWithCourses(appDAO);
+            // findInstructorWithCourses(appDAO);
+            findCoursesByInstructorId(appDAO);
         };
     }
+
+    private void findCoursesByInstructorId(AppDAO appDAO) {
+        Instructor instructor = appDAO.findInstructorByIdJoinFetch(1);
+
+        System.out.println(instructor);
+        System.out.println(instructor.getCourses());
+    }
+
     /**
      * @throws org.hibernate.LazyInitializationException Courses are lazy loaded by default (@OneToMany relation).
-     * @implNote  Instructor instructor = appDAO.findInstructorById(1); opens and closes the session
+     * @implNote Instructor instructor = appDAO.findInstructorById(1); opens and closes the session
      * which means that when trying to access a lazy loaded property, it won't be able to
      * access the DB again because the session is closed.
      */
