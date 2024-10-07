@@ -8,9 +8,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @SpringBootApplication
 public class CrudDemoApplication {
@@ -31,8 +28,13 @@ public class CrudDemoApplication {
             // findInstructorWithCourses(appDAO);
             // findCoursesByInstructorId(appDAO);
             // updateInstructor(appDAO);
-            updateCourse(appDAO);
+            // updateCourse(appDAO);
+            deleteCourseById(appDAO);
         };
+    }
+
+    private void deleteCourseById(AppDAO appDAO) {
+        appDAO.deleteCourseById(1);
     }
 
     private void updateCourse(AppDAO appDAO) {
