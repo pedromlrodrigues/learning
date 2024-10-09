@@ -29,4 +29,9 @@ public class MyDemoLoggingAspect {
     public void beforeAddWildcardAdvice() {
         System.out.println("\n ====>>> Executing @Before advice on add*()");
     }
+
+    @Before("execution(* add*())")
+    public void beforeAddWildcardAndReturnTypeAdvice() {
+        System.out.println("\n ====>>> Executing @Before advice on add*() and any return type");
+    }
 }

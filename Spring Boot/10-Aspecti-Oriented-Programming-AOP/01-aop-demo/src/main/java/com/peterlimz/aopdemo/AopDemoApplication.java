@@ -26,5 +26,7 @@ public class AopDemoApplication {
         accountDAO.addAccount();
 
         membershipDAO.addAccount();
+
+        accountDAO.addSillyAccount();
     }
 }
