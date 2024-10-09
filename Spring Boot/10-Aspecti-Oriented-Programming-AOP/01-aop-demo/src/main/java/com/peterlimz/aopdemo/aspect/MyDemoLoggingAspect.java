@@ -19,4 +19,9 @@ public class MyDemoLoggingAspect {
         // Get the class where the method is called
         System.out.println("Class: " + joinPoint.getTarget().getClass().getSimpleName());
     }
+
+    @Before("execution(public void com.peterlimz.aopdemo.dao.AccountDAO.addAccount())")
+    public void beforeAddAccountOnAccountDAOAdvice() {
+        System.out.println("\n ====>>> Executing @Before advice on Account DAO addAccount()");
+    }
 }
