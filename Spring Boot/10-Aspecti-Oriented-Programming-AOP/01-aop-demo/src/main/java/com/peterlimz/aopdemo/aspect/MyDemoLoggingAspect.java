@@ -24,4 +24,9 @@ public class MyDemoLoggingAspect {
     public void beforeAddAccountOnAccountDAOAdvice() {
         System.out.println("\n ====>>> Executing @Before advice on Account DAO addAccount()");
     }
+
+    @Before("execution(public void add*())")
+    public void beforeAddWildcardAdvice() {
+        System.out.println("\n ====>>> Executing @Before advice on add*()");
+    }
 }
