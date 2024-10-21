@@ -44,4 +44,10 @@ public class MyDemoLoggingAspect {
     public void beforeAddWildcardWithAnyParametersAdvice() {
         System.out.println("\n ====>>> Executing @Before advice on add*() with any parameters");
     }
+
+    @Before("execution(* com.peterlimz.aopdemo.dao.*.*(..))")
+    public void beforeAddWildcardForReturnTypeAndPackageAndClassAndMethodAndParamsAdvice() {
+        System.out.println("\n ====>>> Executing @Before advice on every method inside the declared package");
+    }
+
 }

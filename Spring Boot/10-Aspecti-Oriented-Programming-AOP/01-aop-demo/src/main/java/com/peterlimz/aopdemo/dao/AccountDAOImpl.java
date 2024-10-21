@@ -22,4 +22,10 @@ public class AccountDAOImpl implements AccountDAO {
     public void addAccount(Account account, boolean vipFlag) {
         System.out.println(getClass() + ": ADDING AN ACCOUNT WITH PARAMETER");
     }
+
+    @Override
+    public boolean doWork() {
+        System.out.println(getClass() + ": doWork()");
+        return false;
+    }
 }

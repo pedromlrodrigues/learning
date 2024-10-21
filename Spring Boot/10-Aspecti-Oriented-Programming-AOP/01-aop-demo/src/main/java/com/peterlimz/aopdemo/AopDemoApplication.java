@@ -30,5 +30,9 @@ public class AopDemoApplication {
         accountDAO.addSillyAccount();
 
         accountDAO.addAccount(new Account(), true);
+
+        accountDAO.doWork();
+
+        membershipDAO.goToSleep();
     }
 }
