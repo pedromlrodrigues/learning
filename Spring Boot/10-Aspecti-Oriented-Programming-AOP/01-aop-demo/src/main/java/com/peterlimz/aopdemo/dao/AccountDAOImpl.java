@@ -1,5 +1,6 @@
 package com.peterlimz.aopdemo.dao;
 
+import com.peterlimz.aopdemo.Account;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -15,5 +16,10 @@ public class AccountDAOImpl implements AccountDAO {
         System.out.println(getClass() + ": RETURNING BOOLEAN: ADDING A SILLY ACCOUNT");
 
         return false;
+    }
+
+    @Override
+    public void addAccount(Account account, boolean vipFlag) {
+        System.out.println(getClass() + ": ADDING AN ACCOUNT WITH PARAMETER");
     }
 }

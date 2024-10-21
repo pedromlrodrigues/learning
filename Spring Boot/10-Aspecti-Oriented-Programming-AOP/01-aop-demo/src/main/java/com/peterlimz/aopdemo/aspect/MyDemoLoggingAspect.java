@@ -34,4 +34,14 @@ public class MyDemoLoggingAspect {
     public void beforeAddWildcardAndReturnTypeAdvice() {
         System.out.println("\n ====>>> Executing @Before advice on add*() and any return type");
     }
+
+    @Before("execution(* add*(com.peterlimz.aopdemo.Account, ..))")
+    public void beforeAddWildcardWithSpecificParameterPathAdvice() {
+        System.out.println("\n ====>>> Executing @Before advice on add*() with specific parameter path and any other parameters");
+    }
+
+    @Before("execution(* com.peterlimz..add*(..))")
+    public void beforeAddWildcardWithAnyParametersAdvice() {
+        System.out.println("\n ====>>> Executing @Before advice on add*() with any parameters");
+    }
 }
