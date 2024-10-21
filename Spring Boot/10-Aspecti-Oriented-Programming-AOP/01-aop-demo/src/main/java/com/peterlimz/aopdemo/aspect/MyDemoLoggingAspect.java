@@ -50,4 +50,10 @@ public class MyDemoLoggingAspect {
         System.out.println("\n ====>>> Executing @Before advice on every method inside the declared package");
     }
 
+    @Before("execution(public * *..*DAO.*(..))")
+    public void test() {
+        System.out.println("\n ====>>> Executing @Before advice on every method in a class that ends with DAO");
+    }
+
+
 }
