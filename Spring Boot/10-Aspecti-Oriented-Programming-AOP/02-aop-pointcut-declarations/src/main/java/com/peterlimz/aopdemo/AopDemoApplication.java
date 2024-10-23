@@ -17,7 +17,7 @@ public class AopDemoApplication {
 
     @Bean
     public CommandLineRunner commandLineRunner(AccountDAO accountDAO, MembershipDAO membershipDAO) {
-        return runner -> {
+        return _ -> {
             demoBeforeAdvice(accountDAO, membershipDAO);
         };
     }
@@ -25,6 +25,11 @@ public class AopDemoApplication {
     private void demoBeforeAdvice(AccountDAO accountDAO, MembershipDAO membershipDAO) {
         accountDAO.addAccount(new Account(), true);
         accountDAO.doWork();
+
+        accountDAO.getName();
+        accountDAO.setName("Peter");
+        accountDAO.getServiceCode();
+        accountDAO.setServiceCode("Service Code 01");
 
         membershipDAO.addAccount();
         membershipDAO.goToSleep();

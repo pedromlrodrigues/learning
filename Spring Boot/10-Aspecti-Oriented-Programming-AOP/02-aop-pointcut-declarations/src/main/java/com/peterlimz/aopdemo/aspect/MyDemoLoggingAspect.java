@@ -10,14 +10,27 @@ import org.springframework.stereotype.Component;
 public class MyDemoLoggingAspect {
 
     @Pointcut("execution(* com.peterlimz.aopdemo.dao.*.*(..))")
-    public void forDaoPackage() {}
-
-    @Before("forDaoPackage()")
-    public void beforeAddWildcardForReturnTypeAndPackageAndClassAndMethodAndParamsAdvice() {
-        System.out.println("\n ====>>> Executing @Before advice on every method inside every class inside of the declared package");
+    private void forDaoPackage() {
     }
 
-    @Before("forDaoPackage()")
+    @Pointcut("execution(* com.peterlimz.aopdemo.dao.*.get*(..))")
+    private void forGetterMethods() {
+    }
+
+    @Pointcut("execution(* com.peterlimz.aopdemo.dao.*.set*(..))")
+    private void forSetterMethods() {
+    }
+
+    @Pointcut("forDaoPackage() && !(forGetterMethods() || forSetterMethods())")
+    private void forDaoPackageExcludingGettersAndSetters() {
+    }
+
+    @Before("forDaoPackageExcludingGettersAndSetters()")
+    public void beforeDaoPackageExcludingGettersAndSettersAdvice() {
+        System.out.println("\n ====>>> Executing @Before DaoPackageExcludingGettersAndSettersAdvice");
+    }
+
+    @Before("forDaoPackageExcludingGettersAndSetters()")
     public void performApiAnalytics() {
         System.out.println("\n ====>>> Performing API analytics");
     }
