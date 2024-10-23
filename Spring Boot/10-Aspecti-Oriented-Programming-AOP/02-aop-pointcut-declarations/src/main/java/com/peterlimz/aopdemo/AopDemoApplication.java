@@ -23,7 +23,7 @@ public class AopDemoApplication {
     }
 
     private void demoBeforeAdvice(AccountDAO accountDAO, MembershipDAO membershipDAO) {
-        accountDAO.addAccount(new Account(), true);
+        accountDAO.addAccount(new Account("Peter", "Master Level"), true);
         accountDAO.doWork();
 
         accountDAO.getName();
