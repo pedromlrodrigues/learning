@@ -3,6 +3,8 @@ package com.peterlimz.aopdemo.dao;
 import com.peterlimz.aopdemo.Account;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class AccountDAOImpl implements AccountDAO {
 
@@ -54,5 +56,10 @@ public class AccountDAOImpl implements AccountDAO {
     public boolean doWork() {
         System.out.println(getClass() + ": doWork()");
         return false;
+    }
+
+    @Override
+    public List<Account> findAccounts() {
+        return List.of(new Account("Peter", "Master Level"), new Account("Meggy", "GOAT Level :)"));
     }
 }

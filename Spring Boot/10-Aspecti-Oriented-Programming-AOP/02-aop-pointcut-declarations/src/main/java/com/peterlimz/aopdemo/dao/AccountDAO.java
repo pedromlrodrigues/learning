@@ -2,6 +2,8 @@ package com.peterlimz.aopdemo.dao;
 
 import com.peterlimz.aopdemo.Account;
 
+import java.util.List;
+
 public interface AccountDAO {
 
     String getName();
@@ -19,4 +21,6 @@ public interface AccountDAO {
     void addAccount(Account account, boolean vipFlag);
 
     boolean doWork();
+
+    List<Account> findAccounts();
 }
