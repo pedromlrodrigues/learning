@@ -19,9 +19,22 @@ public class MyDemoLoggingAspect extends AopDeclarations {
     @AfterReturning(
             pointcut = "execution(* com.peterlimz.aopdemo.dao.AccountDAO.findAccounts(..))",
             returning = "accounts")
-    public void afterReturningFindAccountsAdvice(List<Account> accounts) {
+    public void afterReturningFindAccountsAdvice(JoinPoint joinPoint, List<Account> accounts) {
         System.out.println("=====> @AfterReturning afterReturningFindAccountsAdvice");
-        System.out.println(accounts);
+
+        System.out.println("=====> Result is: " + accounts);
+
+        convertAccountNameToUpperCase(accounts);
+
+        System.out.println("=====> Result is: " + accounts);
+    }
+
+    private void convertAccountNameToUpperCase(List<Account> accounts) {
+        for (Account account : accounts) {
+            String upperName = account.getName().toUpperCase();
+
+            account.setName(upperName);
+        }
     }
 
     @Before("forDaoPackageExcludingGettersAndSetters()")
