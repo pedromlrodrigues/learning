@@ -23,4 +23,6 @@ public interface AccountDAO {
     boolean doWork();
 
     List<Account> findAccounts();
+
+    List<Account> findAccounts(boolean tripWire);
 }

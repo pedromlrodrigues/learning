@@ -21,8 +21,22 @@ public class AopDemoApplication {
     public CommandLineRunner commandLineRunner(AccountDAO accountDAO, MembershipDAO membershipDAO) {
         return _ -> {
             // demoBeforeAdvice(accountDAO, membershipDAO);
-            demoAfterReturningAdvice(accountDAO);
+            // demoAfterReturningAdvice(accountDAO);
+            // demoAfterThrowingAdvice(accountDAO);
+            demoAfterAdvice(accountDAO);
         };
+    }
+
+    private void demoAfterAdvice(AccountDAO accountDAO) {
+        List<Account> accounts = null;
+
+        try {
+            accounts = accountDAO.findAccounts(false);
+        } catch (Exception e) {
+            System.out.println("\n\nMain Program: caught exception: " + e);
+        }
+
+        System.out.println("\n\nMain Program: demoAfterAdvice");
     }
 
     private void demoAfterReturningAdvice(AccountDAO accountDAO) {
@@ -33,6 +47,18 @@ public class AopDemoApplication {
         System.out.println(accounts);
 
         System.out.println("\n");
+    }
+
+    private void demoAfterThrowingAdvice(AccountDAO accountDAO) {
+        List<Account> accounts = null;
+
+        try {
+            accounts = accountDAO.findAccounts(true);
+        } catch (Exception e) {
+            System.out.println("\n\nMain Program: caught exception: " + e);
+        }
+
+        System.out.println("\n\nMain Program: demoAfterThrowingAdvice");
     }
 
     private void demoBeforeAdvice(AccountDAO accountDAO, MembershipDAO membershipDAO) {

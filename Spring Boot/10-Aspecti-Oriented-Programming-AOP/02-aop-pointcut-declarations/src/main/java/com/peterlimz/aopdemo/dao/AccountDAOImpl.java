@@ -60,6 +60,17 @@ public class AccountDAOImpl implements AccountDAO {
 
     @Override
     public List<Account> findAccounts() {
-        return List.of(new Account("Peter", "Master Level"), new Account("Meggy", "GOAT Level :)"));
+        return findAccounts(false);
+    }
+
+    @Override
+    public List<Account> findAccounts(boolean tripWire) {
+        if (tripWire) {
+            throw new RuntimeException("No pasta today!!");
+        }
+
+        return List.of(
+                new Account("Peter", "Master Level"),
+                new Account("Meggy", "GOAT Level :)"));
     }
 }

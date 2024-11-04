@@ -2,7 +2,9 @@ package com.peterlimz.aopdemo.aspect;
 
 import com.peterlimz.aopdemo.Account;
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.AfterReturning;
+import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.MethodSignature;
@@ -16,6 +18,11 @@ import java.util.List;
 @Order(2)
 public class MyDemoLoggingAspect extends AopDeclarations {
 
+    @After("execution(* com.peterlimz.aopdemo.dao.AccountDAO.findAccounts(..))")
+    public void afterFinallyFindAccountsAdvice(JoinPoint joinPoint) {
+        System.out.println("=====> @After (finally) on method: " + joinPoint.getSignature().toShortString());
+    }
+
     @AfterReturning(
             pointcut = "execution(* com.peterlimz.aopdemo.dao.AccountDAO.findAccounts(..))",
             returning = "accounts")
@@ -27,6 +34,16 @@ public class MyDemoLoggingAspect extends AopDeclarations {
         convertAccountNameToUpperCase(accounts);
 
         System.out.println("=====> Result is: " + accounts);
+    }
+
+    @AfterThrowing(
+            pointcut = "execution(* com.peterlimz.aopdemo.dao.AccountDAO.findAccounts(..))",
+            throwing = "exception")
+    public void afterThrowingFindAccountsAdvice(JoinPoint joinPoint, Throwable exception) {
+        System.out.println("=====> @AfterThrowing on method: " + joinPoint.getSignature().toShortString());
+
+        System.out.println("=====> Result is: " + exception);
+
     }
 
     private void convertAccountNameToUpperCase(List<Account> accounts) {
