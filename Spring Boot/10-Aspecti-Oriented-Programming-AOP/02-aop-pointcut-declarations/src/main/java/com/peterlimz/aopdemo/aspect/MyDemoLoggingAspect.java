@@ -2,9 +2,11 @@ package com.peterlimz.aopdemo.aspect;
 
 import com.peterlimz.aopdemo.Account;
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.AfterThrowing;
+import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.MethodSignature;
@@ -17,6 +19,26 @@ import java.util.List;
 @Component
 @Order(2)
 public class MyDemoLoggingAspect extends AopDeclarations {
+
+    @Around(value = "execution(* com.peterlimz.aopdemo.service.*.getFortune(..))", argNames = "proceedingJoinPoint")
+    public Object afterAroundAdvice(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
+        System.out.println("=====> @Around on method: " + proceedingJoinPoint.getSignature().toShortString());
+
+        long beginTime = System.currentTimeMillis();
+
+        Object result;
+        try {
+            result = proceedingJoinPoint.proceed();
+        } catch (Exception e) {
+            result = "Major accident! We are here to save you anyway!";
+        }
+
+        long endTime = System.currentTimeMillis();
+
+        System.out.println("\n=======> Duration: " + (endTime - beginTime) + "ms");
+
+        return result;
+    }
 
     @After("execution(* com.peterlimz.aopdemo.dao.AccountDAO.findAccounts(..))")
     public void afterFinallyFindAccountsAdvice(JoinPoint joinPoint) {
