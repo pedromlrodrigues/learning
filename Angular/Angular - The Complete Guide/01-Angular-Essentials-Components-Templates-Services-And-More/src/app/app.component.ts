@@ -14,7 +14,7 @@ import { TasksComponent } from './tasks/tasks.component';
 })
 export class AppComponent {
   users = DUMMY_USERS;
-  selectedUser: any;
+  selectedUser: { id: string; name: string; avatar: string } | undefined;
 
   onSelectUser(id: string) {
     console.log('Selected user with id ' + id);
