@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { DUMMY_TASKS } from '../data/dummy-tasks';
 import { User } from '../user/user.model';
-import { Task } from './task.model';
+import { NewTaskData, Task } from './task/task.model';
 import { TaskComponent } from './task/task.component';
 import { CreateTaskComponent } from './create-task/create-task.component';
 
@@ -23,7 +23,8 @@ export class TasksComponent {
   }
 
   onCompleteTask(taskId: string) {
-    this.tasks.splice(+taskId, 1);
+    console.log(taskId);
+    this.tasks = this.tasks.filter(t => t.id !== taskId);
   }
 
   onStartAddTask() {
@@ -31,6 +32,18 @@ export class TasksComponent {
   }
 
   onCancelAddTask() {
+    this.isAddingTask = false;
+  }
+
+  onAddTask(task: NewTaskData) {
+    this.tasks.push({
+      id: new Date().getTime().toString(),
+      userId: this.selectedUser!.id,
+      title: task.title,
+      summary: task.summary,
+      dueDate: task.date,
+    });
+
     this.isAddingTask = false;
   }
 }
