@@ -1,9 +1,8 @@
 import { Component, Input } from '@angular/core';
-import { DUMMY_TASKS } from '../data/dummy-tasks';
 import { User } from '../user/user.model';
-import { NewTaskData, Task } from './task/task.model';
-import { TaskComponent } from './task/task.component';
 import { CreateTaskComponent } from './create-task/create-task.component';
+import { TaskComponent } from './task/task.component';
+import { NewTaskData } from './task/task.model';
 import { TasksService } from './tasks.service';
 
 @Component({
@@ -21,10 +20,6 @@ export class TasksComponent {
 
   get userTasks() {
     return this.tasksService.getUserTasks(this.selectedUser!.id);
-  }
-
-  onCompleteTask(taskId: string) {
-    this.tasksService.completeTask(taskId);
   }
 
   onStartAddTask() {
