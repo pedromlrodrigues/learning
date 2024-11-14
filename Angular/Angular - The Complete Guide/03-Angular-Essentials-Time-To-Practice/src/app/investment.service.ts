@@ -6,11 +6,11 @@ import { InvestmentResult } from './investment-results/investment-result.model';
   providedIn: 'root',
 })
 export class InvestmentService {
+  private investmentResults!: InvestmentResult[];
+
   constructor() {}
 
-  calculateInvestmentResults(
-    investmentInputData: InvestmentInput
-  ): InvestmentResult[] {
+  calculateInvestmentResults(investmentInputData: InvestmentInput) {
     const { initialInvestment, annualInvestment, expectedReturn, duration } =
       investmentInputData;
 
@@ -33,6 +33,10 @@ export class InvestmentService {
       });
     }
 
-    return annualData;
+    this.investmentResults = annualData;
+  }
+
+  getInvestmentResults() {
+    return this.investmentResults;
   }
 }
