@@ -1,4 +1,6 @@
 import {
+  afterNextRender,
+  afterRender,
   Component,
   contentChild,
   ContentChild,
@@ -34,6 +36,15 @@ export class ControlComponent {
     );
   label = input.required<string>();
   private el = inject(ElementRef);
+
+  constructor() {
+    afterRender(() => {
+      console.log('afterRender');
+    });
+    afterNextRender(() => {
+      console.log('afterNextRender');
+    });
+  }
 
   onClick() {
     console.log(this.el);
