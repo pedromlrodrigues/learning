@@ -2,11 +2,7 @@
   <!-- $first, $last, $count, $odd, $even-->
   <ul>
     @for (ticket of tickets; track ticket.id) {
-    <app-ticket-item />
-    -
-    {{
-      $odd
-    }}
+    <app-ticket-item [data]="ticket" />
     } @empty {
     <p>No tickets available.</p>
     }
