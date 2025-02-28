@@ -12,7 +12,7 @@ export class AuthService {
     console.log(email, password);
     if (email === 'admin' && password === 'admin') {
       this.activePermission.set('admin');
-    } else if (email === 'user@example.com' && password === 'user') {
+    } else if (email === 'user' && password === 'user') {
       this.activePermission.set('user');
     } else {
       this.activePermission.set('guest');
