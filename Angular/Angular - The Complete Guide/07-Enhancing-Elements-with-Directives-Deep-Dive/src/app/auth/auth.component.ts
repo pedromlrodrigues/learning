@@ -1,6 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
+import { LogDirective } from '../log.directive';
 import { AuthService } from './auth.service';
 
 @Component({
@@ -9,6 +10,7 @@ import { AuthService } from './auth.service';
   imports: [FormsModule],
   templateUrl: './auth.component.html',
   styleUrl: './auth.component.css',
+  hostDirectives: [LogDirective],
 })
 export class AuthComponent {
   email = signal('');
