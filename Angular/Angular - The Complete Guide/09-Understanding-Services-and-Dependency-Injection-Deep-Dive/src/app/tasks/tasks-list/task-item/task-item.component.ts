@@ -1,8 +1,8 @@
 import { Component, computed, inject, input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
+import { TasksServiceToken } from '../../../../main';
 import { Task, TaskStatus } from '../../task.model';
-import { TasksService } from '../../tasks.service';
 
 @Component({
   selector: 'app-task-item',
@@ -26,7 +26,7 @@ export class TaskItemComponent {
     }
   });
 
-  private tasksService = inject(TasksService);
+  private tasksService = inject(TasksServiceToken);
 
   onChangeTaskStatus(taskId: string, status: string) {
     let newStatus: TaskStatus = 'OPEN';
