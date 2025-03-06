@@ -1,6 +1,7 @@
 import { Component, DestroyRef, inject, signal } from '@angular/core';
 
 import { HttpClient } from '@angular/common/http';
+import { map } from 'rxjs';
 import { Place } from '../place.model';
 import { PlacesContainerComponent } from '../places-container/places-container.component';
 import { PlacesComponent } from '../places.component';
@@ -17,12 +18,18 @@ export class AvailablePlacesComponent {
   private destroyRef = inject(DestroyRef);
 
   places = signal<Place[] | undefined>(undefined);
+  isFetching = signal(false);
 
   ngOnInit() {
+    this.isFetching.set(true);
     const subscription = this.httpClient
       .get<{ places: Place[] }>('http://localhost:3000/places')
+      .pipe(map((resData) => resData.places))
       .subscribe({
-        next: (res) => this.places.set(res.places),
+        next: (places) => {
+          this.places.set(places);
+        },
+        complete: () => this.isFetching.set(false),
       });
 
     this.destroyRef.onDestroy(() => {
