@@ -1,6 +1,6 @@
 # Docker
 
-### Useful Commands:
+## Useful Commands:
 
 **Create image using Dockerfile**
 
@@ -9,11 +9,11 @@
 
 **Run container using previous built image on port**
 
-- docker run -p <port>:<port> <hash>
+- docker run -p \<port>:\<port> \<hash>
 
 **Stop container**
 
-- docker stop <container-name>
+- docker stop \<container-name>
 
 **List containers**
 
