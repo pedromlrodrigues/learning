@@ -16,9 +16,13 @@
 
 - docker run -it \<image-hash or image-name>
 
-**Run container, providing an option to delete the container after it exits**
+**Run container, providing an option to remove the container after it exits**
 
 - docker run --rm \<image-hash or image-name>
+
+**Run container, providing an option to create a managed named volume**
+
+- docker run -v \<folder-name-in-host-machine>:\<path-inside-container-filesystem>
 
 **Start existing container**
 
@@ -48,7 +52,7 @@
 
 - docker cp \<container-id or container-name>:/\<source-path> \<local-destination-path>
 
-**Delete stopped containers (boring and overworked way)**
+**Remove stopped containers (boring and overworked way)**
 
 - docker rm <...container-names>
 
@@ -59,11 +63,11 @@
 - docker build -t \<image-name>:\<image-tag> .
   In the end of the execution of this command, it will generate an hash that can be used in order to be ran with the next command.
 
-**Delete images (boring and overworked way)**
+**Remove images (boring and overworked way)**
 
 - docker rmi <...image-ids>
 
-**Delete unused images**
+**Remove unused images**
 
 - docker image prune -a
 
@@ -74,3 +78,17 @@
 **Inspect images (detailed information like OS, environment variables, etc)**
 
 - docker inspect \<image-hash or image-name>
+
+## Volumes
+
+**List volumes**
+
+- docker volume ls
+
+**Remove volume**
+
+- docker volume rm \<volume-name>
+
+**Remove unused volumes**
+
+- docker volume prune
