@@ -2,12 +2,13 @@
 
 ### Useful Commands:
 
-**Create image using Dockerfile**
+## Containers:
 
-- docker build .
-  In the end of the execution of this command, it will generate an hash that can be used in order to be ran with the next command.
+**Run container, providing an option to name the container**
 
-**Run container using previous built image on port**
+- docker run --name \<custom-container-name> \<image-hash or image-name>
+
+**Run container, providing an option to publish a port**
 
 - docker run -p \<local-port>:\<exposed-port> \<image-hash or image-name>
 
@@ -27,18 +28,6 @@
 
 - docker stop \<container-name>
 
-**Delete stopped containers (boring and overworked way)**
-
-- docker rm <...container-names>
-
-**Delete images**
-
-- docker rmi <...image-ids>
-
-**List images**
-
-- docker images
-
 **List running containers**
 
 - docker ps
@@ -50,3 +39,38 @@
 **Check container logs**
 
 - docker logs \<image-hash or image-name>
+
+**Copy files into a container**
+
+- docker cp \<local-source-path> \<container-id or container-name>:/\<destination-path>
+
+**Copy files from a container**
+
+- docker cp \<container-id or container-name>:/\<source-path> \<local-destination-path>
+
+**Delete stopped containers (boring and overworked way)**
+
+- docker rm <...container-names>
+
+## Images:
+
+**Create image using Dockerfile and name:tag it**
+
+- docker build -t \<image-name>:\<image-tag> .
+  In the end of the execution of this command, it will generate an hash that can be used in order to be ran with the next command.
+
+**Delete images (boring and overworked way)**
+
+- docker rmi <...image-ids>
+
+**Delete unused images**
+
+- docker image prune -a
+
+**List images**
+
+- docker images
+
+**Inspect images (detailed information like OS, environment variables, etc)**
+
+- docker inspect \<image-hash or image-name>
