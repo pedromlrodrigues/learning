@@ -13,7 +13,7 @@
 
 **Run container, providing an interactive and persistent terminal session within that container**
 
-- docker run -it <image-hash or image-name>
+- docker run -it \<image-hash or image-name>
 
 **Run container, providing an option to delete the container after it exits**
 
@@ -43,7 +43,7 @@
 
 - docker ps
 
-**List containers created by Docker**
+**List containers**
 
 - docker ps -a
 
