@@ -92,3 +92,6 @@
 **Remove unused volumes**
 
 - docker volume prune
+
+**Create anonymous, named and bind mount volumes**
+![alt text](./images/create_volumes.png)
