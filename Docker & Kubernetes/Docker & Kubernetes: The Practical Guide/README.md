@@ -20,9 +20,27 @@
 
 - docker run --rm \<image-hash or image-name>
 
-**Run container, providing an option to create a managed named volume**
+**Run container, creating and mounting an anonymous Docker-managed volume**
 
-- docker run -v \<folder-name-in-host-machine>:\<path-inside-container-filesystem>
+- docker run -v \<path-inside-container-filesystem> \<image-hash or image-name>
+
+**Run container, creating (if needed) and mounting a Docker-managed named volume**
+
+- docker run -v \<volume-name>:/\<path-inside-container-filesystem> \<image-hash or image-name>
+
+**Run container, mounting a host directory as a bind mount**
+
+- docker run -v \<folder-name-in-host-machine>:\<path-inside-container-filesystem> \<image-hash or image-name>
+
+**Run container, providing an option to define environment variables**
+
+- docker run --env \<environment-variable-key>=\<environemnt-variable-value> \<image-hash or image-name>
+- docker run -e \<environment-variable-key>=\<environemnt-variable-value> \<image-hash or image-name>
+- docker run -e \<environment-variable-key>=\<environemnt-variable-value> -e \<environment-variable-key>=\<environemnt-variable-value> \<image-hash or image-name>
+
+**Run container, providing an option to define a path to an environment configuration file**
+
+- docker run --env-file \<environment-configuration-file-path> \<image-hash or image-name>
 
 **Start existing container**
 
@@ -95,3 +113,7 @@
 
 **Create anonymous, named and bind mount volumes**
 ![alt text](./images/create_volumes.png)
+
+**Inspect volumes (name, options, mountpoint)**
+
+- docker inspect \<image-hash or image-name>
